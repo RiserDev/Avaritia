@@ -1,14 +1,14 @@
 #define Main
     //VARS
-    globalvar ItemPileOfNeutronium, ItemNeutroniumNugget, ItemNeutroniumIngot, ItemInfinityIngot, ItemCrystalMatrix, ItemPlasticLattice,
-        ItemInfinityCatalyst, ItemJellySingularity, ItemBoneSingularity, ItemIronSingularity, ItemGoldSingularity, ItemSteelSingularity,
-        ItemVoidSingularity, ItemCosmicSingularity, ItemUraniumSingularity;
+    globalvar ItemPileOfNeutronium, ItemNeutroniumNugget, ItemNeutroniumIngot, ItemInfinityIngot, ItemCrystalMatrix,
+        ItemPlasticLattice, ItemInfinityCatalyst, ItemJellySingularity, ItemBoneSingularity, ItemIronSingularity,
+        ItemGoldSingularity, ItemSteelSingularity, ItemVoidSingularity, ItemCosmicSingularity, ItemUraniumSingularity,
+        ItemNeutroniumBook, ItemNeutroniumPickaxe, ItemNeutroniumSword; 
     globalvar StructureNeutronCollector, StructureNeutronCompressor, StructureDireForge;
     globalvar _sprPileOfNeutronium, _sprNeutroniumNugget, _sprNeutroniumIngot, _sprInfinityIngot, _sprCrystalMatrix, _sprNeutronCompressor,
-        _sprNeutronCollector, _sprDireForge, _sprPlasticLattice, _sprInfinityCatayst, _sprJellySingularity;
+        _sprNeutronCollector, _sprDireForge, _sprPlasticLattice, _sprInfinityCatalyst, _sprNeutroniumBook, _sprNeutroniumPickaxe, _sprNeutroniumSword;
     
     
-    // GEARS
     
     
     // SPRITES
@@ -24,15 +24,22 @@
    SetOffset(_sprCrystalMatrix);
     _sprPlasticLattice = sprite_add("spr/sprPlasticLattice.png", 1, false, false, 0, 0);
     SetOffset(_sprPlasticLattice);
-    _sprInfinityCatayst = sprite_add("spr/ItemInfinityCatalyst.png", 1, false, false, 0, 0);
-    SetOffset(_sprInfinityCatayst);
+    _sprInfinityCatalyst = sprite_add("spr/sprInfinityCatalyst.png", 1, false, false, 0, 0);
+    SetOffset(_sprInfinityCatalyst);
     _sprNeutronCollector = sprite_add("spr/sprNeutronCollector.png", 1, false, false, 0, 0);
     SetOffset(_sprNeutronCollector);
     _sprNeutronCompressor = sprite_add("spr/sprNeutronCompressor.png", 1, false, false, 0, 0);
     SetOffset(_sprNeutronCompressor);
     _sprDireForge = sprite_add("spr/sprDireForge.png", 1, false, false, 0, 0);
     SetOffset(_sprDireForge);
-
+    _sprNeutroniumBook = sprite_add("spr/sprNeutroniumBook.png", 1, false, false, 0, 0);
+    SetOffset(_sprNeutroniumBook);
+    _sprNeutroniumPickaxe = sprite_add("spr/sprNeutroniumPickaxe.png", 1, false, false, 0, 0);
+    SetOffset(_sprNeutroniumPickaxe);
+    _sprNeutroniumSword = sprite_add("spr/sprNeutroniumSword.png", 1, false, false, 0, 0);
+    SetOffset(_sprNeutroniumSword);
+    
+    
     // ITEMS
     ItemPileOfNeutronium = ItemCreate(undefined, "Pile of Neturonium", "piece of the world", _sprPileOfNeutronium, ItemType.Material,
         ItemSubType.None, 10, 0, 0, [Item.Wood, 1]);
@@ -46,10 +53,16 @@
         ItemSubType.None, 1000, 0, 0, [Item.RoyalSteel, 10, Item.FiberGlass, 15]);
     ItemPlasticLattice = ItemCreate(undefined, "Plastic Lattice", "", _sprPlasticLattice, ItemType.Material,
         ItemSubType.None, 1000, 0, 0, [Item.Plastic, 15, Item.BottledOil, 10, Item.RoyalClothing, 10]);
-    ItemInfinityCatalyst = ItemCreate(undefined, "Infinity Catalyst", "", _sprInfinityCatayst, ItemType.Material,
+    ItemInfinityCatalyst = ItemCreate(undefined, "Infinity Catalyst", "", _sprInfinityCatalyst, ItemType.Material,
         ItemSubType.None, 1000000, 0, 0, [ItemPlasticLattice, 99, ItemInfinityIngot, 30, ItemNeutroniumIngot, 80, ItemCrystalMatrix, 100]);
-    
-    
+    ItemNeutroniumBook = ItemCreate(undefined, "Neutronium Book", "", _sprNeutroniumBook, ItemType.Gear,
+        ItemSubType.None, 10000000, 0, 0, undefined);
+    ItemNeutroniumPickaxe = ItemCreate(undefined, "Neutronium Pickaxe", "", _sprNeutroniumPickaxe, ItemType.Gear,
+        ItemSubType.None, 100000, 0, 0, undefined, ScriptWrap(UsePickaxe), undefined, undefined, 7);
+    ItemNeutroniumSword = ItemCreate(undefined, "Neutronium Sword", "", _sprNeutroniumSword, ItemType.Gear,
+        ItemSubType.None, 100000, 0, 0, undefined, ScriptWrap(UseSword), undefined, undefined, 7);
+        
+        
     // STRUCTURES
     StructureNeutronCollector = StructureCreate(undefined, "Neutron Collector", "step by step to rich", StructureType.Base ,
         _sprNeutronCollector, undefined, [Item.LegendaryGem, 10, Item.NuclearFuelCell, 10, Item.ToxicSludge, 10], 2, true,
@@ -57,7 +70,7 @@
         
     StructureNeutronCompressor = StructureCreate(undefined, "Neutron Compressor", "go to your rich", StructureType.Base,
         _sprNeutronCompressor, undefined, [ItemPileOfNeutronium, 10, Item.KrakenEye, 20, Item.CosmicSteel, 10], 2, true, 
-        [], true, BuildMenuCategory.Industrial, undefined);
+        [], true, BuildMenuCategory.Industrial, [Gear.Book]);
         
     StructureDireForge = StructureCreate(undefined, "Dire Forge", "make incredible", StructureType.Base, _sprDireForge,
         undefined, [ItemCrystalMatrix, 80, Item.NuclearFuelCell, 10, Item.VoidSteel, 60, Item.CosmicSteel, 30], 2, true,
@@ -76,6 +89,11 @@
     ItemCosmicSingularity = SingularityCreate("Cosmic", "", "Cosmic", 50000, [Item.CosmicSteel, 5000]);
     ItemUraniumSingularity = SingularityCreate("Uranium", "", "Uranium", 60000, [Item.Uranium, 5000]);
     
+    // GEARS
+    GearCategoryAddItems(Gear.Book, ItemNeutroniumBook);
+    GearCategoryAddItems(Gear.Pickaxe, ItemNeutroniumPickaxe);
+    GearCategoryAddItems(Gear.Sword, ItemNeutroniumSword);
+
 
 #define SingularityCreate(name, description, _spr, value, recipe)
     var _sprite = sprite_add("spr/" + "spr" + _spr + "Singularity.png", 1, false, false, 0, 0);

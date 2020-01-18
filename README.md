@@ -1,1 +1,3 @@
 # Avaritia
+
+## Forager mod
