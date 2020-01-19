@@ -4,11 +4,12 @@
         ItemPlasticLattice, ItemInfinityCatalyst, ItemJellySingularity, ItemBoneSingularity, ItemIronSingularity,
         ItemGoldSingularity, ItemSteelSingularity, ItemVoidSingularity, ItemCosmicSingularity, ItemUraniumSingularity,
         ItemNeutroniumBook, ItemNeutroniumPickaxe, ItemNeutroniumSword, ItemNeutroniumAmulet, ItemNeutroniumWallet,
-        ItemNeutroniumBow; 
+        ItemNeutroniumBow, ItemNeutroniumBoots, ItemNeutroniumGloves; 
     globalvar StructureNeutronCollector, StructureNeutronCompressor, StructureDireForge;
     globalvar _sprPileOfNeutronium, _sprNeutroniumNugget, _sprNeutroniumIngot, _sprInfinityIngot, _sprCrystalMatrix,
         _sprNeutronCompressor, _sprNeutronCollector, _sprDireForge, _sprPlasticLattice, _sprInfinityCatalyst, _sprNeutroniumBook,
-        _sprNeutroniumPickaxe, _sprNeutroniumSword, _sprNeutroniumAmulet, _sprNeutroniumWallet, _sprNeutroniumBow;
+        _sprNeutroniumPickaxe, _sprNeutroniumSword, _sprNeutroniumAmulet, _sprNeutroniumWallet, _sprNeutroniumBow,
+        _sprNeutroniumBoots, _sprNeutroniumGloves;
 
     
     // SPRITES
@@ -44,6 +45,10 @@
     SetOffset(_sprNeutroniumWallet);
     _sprNeutroniumBow = sprite_add("spr/sprNeutroniumBow.png", 1, false, false, 0, 0);
     SetOffset(_sprNeutroniumBow);
+    _sprNeutroniumBoots = sprite_add("spr/sprNeutroniumBoots.png", 1, false, false, 0, 0);
+    SetOffset(_sprNeutroniumBoots);
+    _sprNeutroniumGloves = sprite_add("spr/sprNeutroniumGloves.png", 1, false, false, 0, 0);
+    SetOffset(_sprNeutroniumGloves);
     
     // ITEMS
     ItemPileOfNeutronium = ItemCreate(undefined, "Pile of Neturonium", "piece of the world", _sprPileOfNeutronium, ItemType.Material,
@@ -60,6 +65,7 @@
         ItemSubType.None, 1000, 0, 0, [Item.Plastic, 15, Item.BottledOil, 10, Item.RoyalClothing, 10]);
     ItemInfinityCatalyst = ItemCreate(undefined, "Infinity Catalyst", "", _sprInfinityCatalyst, ItemType.Material,
         ItemSubType.None, 1000000, 0, 0, [ItemPlasticLattice, 99, ItemInfinityIngot, 30, ItemNeutroniumIngot, 80, ItemCrystalMatrix, 100]);
+    // NEUTROMIUM ITEMS  
     ItemNeutroniumBook = ItemCreate(undefined, "Neutronium Book", "", _sprNeutroniumBook, ItemType.Gear,
         ItemSubType.None, 10000000, 0, 0, undefined);
     ItemNeutroniumPickaxe = ItemCreate(undefined, "Neutronium Pickaxe", "", _sprNeutroniumPickaxe, ItemType.Gear,
@@ -68,8 +74,14 @@
         ItemSubType.None, 100000, 0, 0, undefined, ScriptWrap(UseSword), undefined, undefined, 7);
     ItemNeutroniumAmulet = ItemCreate(undefined, "Neutronium Amulet", "", _sprNeutroniumAmulet, ItemType.Gear,
         ItemSubType.None, 10000, 0, 0, undefined);
+    ItemNeutroniumWallet= ItemCreate(undefined, "Neutronium Wallet", "", _sprNeutroniumWallet, ItemType.Gear,
+        ItemSubType.None, 10000, 0, 0, undefined);
     ItemNeutroniumBow = ItemCreate(undefined, "Neutronium Bow", "", _sprNeutroniumBow, ItemType.Gear,
-        ItemSubType.None, 10000, 0, 0, undefined, ScriptWrap(UseBow));
+        ItemSubType.None, 10000, 0, 0, undefined);
+    ItemNeutroniumBoots = ItemCreate(undefined, "Neutronium Boots", "", _sprNeutroniumBoots, ItemType.Gear,
+        ItemSubType.None, 10000, 0, 0, undefined);
+    ItemNeutroniumGloves = ItemCreate(undefined, "Neutronium Gloves", "", _sprNeutroniumGloves, ItemType.Gear,
+        ItemSubType.None, 10000, 0, 0, undefined);
         
         
     // STRUCTURES
@@ -105,6 +117,8 @@
     GearCategoryAddItems(Gear.Amulet, ItemNeutroniumAmulet);
     GearCategoryAddItems(Gear.Wallet, ItemNeutroniumWallet);
     GearCategoryAddItems(Gear.Bow, ItemNeutroniumBow);
+    GearCategoryAddItems(Gear.Boots, ItemNeutroniumBoots);
+    GearCategoryAddItems(Gear.Gloves, ItemNeutroniumGloves);
     
 #define OnStructureBuild(inst, structure)
     if (structure==StructureNeutronCompressor) {
