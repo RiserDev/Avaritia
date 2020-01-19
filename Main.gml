@@ -3,13 +3,13 @@
     globalvar ItemPileOfNeutronium, ItemNeutroniumNugget, ItemNeutroniumIngot, ItemInfinityIngot, ItemCrystalMatrix,
         ItemPlasticLattice, ItemInfinityCatalyst, ItemJellySingularity, ItemBoneSingularity, ItemIronSingularity,
         ItemGoldSingularity, ItemSteelSingularity, ItemVoidSingularity, ItemCosmicSingularity, ItemUraniumSingularity,
-        ItemNeutroniumBook, ItemNeutroniumPickaxe, ItemNeutroniumSword; 
+        ItemNeutroniumBook, ItemNeutroniumPickaxe, ItemNeutroniumSword, ItemNeutroniumAmulet, ItemNeutroniumWallet,
+        ItemNeutroniumBow; 
     globalvar StructureNeutronCollector, StructureNeutronCompressor, StructureDireForge;
-    globalvar _sprPileOfNeutronium, _sprNeutroniumNugget, _sprNeutroniumIngot, _sprInfinityIngot, _sprCrystalMatrix, _sprNeutronCompressor,
-        _sprNeutronCollector, _sprDireForge, _sprPlasticLattice, _sprInfinityCatalyst, _sprNeutroniumBook, _sprNeutroniumPickaxe, _sprNeutroniumSword;
-    
-    
-    
+    globalvar _sprPileOfNeutronium, _sprNeutroniumNugget, _sprNeutroniumIngot, _sprInfinityIngot, _sprCrystalMatrix,
+        _sprNeutronCompressor, _sprNeutronCollector, _sprDireForge, _sprPlasticLattice, _sprInfinityCatalyst, _sprNeutroniumBook,
+        _sprNeutroniumPickaxe, _sprNeutroniumSword, _sprNeutroniumAmulet, _sprNeutroniumWallet, _sprNeutroniumBow;
+
     
     // SPRITES
     _sprPileOfNeutronium = sprite_add("spr/sprPileOfNeutronium.png", 1, false, false, 0, 0);
@@ -26,9 +26,9 @@
     SetOffset(_sprPlasticLattice);
     _sprInfinityCatalyst = sprite_add("spr/sprInfinityCatalyst.png", 1, false, false, 0, 0);
     SetOffset(_sprInfinityCatalyst);
-    _sprNeutronCollector = sprite_add("spr/sprNeutronCollector.png", 1, false, false, 0, 0);
+    _sprNeutronCollector = sprite_add("spr/sprNeutronCollector.png", 4, false, false, 32, 32);
     SetOffset(_sprNeutronCollector);
-    _sprNeutronCompressor = sprite_add("spr/sprNeutronCompressor.png", 1, false, false, 0, 0);
+    _sprNeutronCompressor = sprite_add("spr/sprNeutronCompressor.png", 4, false, false, 32, 32);
     SetOffset(_sprNeutronCompressor);
     _sprDireForge = sprite_add("spr/sprDireForge.png", 1, false, false, 0, 0);
     SetOffset(_sprDireForge);
@@ -38,7 +38,12 @@
     SetOffset(_sprNeutroniumPickaxe);
     _sprNeutroniumSword = sprite_add("spr/sprNeutroniumSword.png", 1, false, false, 0, 0);
     SetOffset(_sprNeutroniumSword);
-    
+    _sprNeutroniumAmulet = sprite_add("spr/sprNeutroniumAmulet.png", 1, false, false, 0, 0);
+    SetOffset(_sprNeutroniumAmulet);
+    _sprNeutroniumWallet = sprite_add("spr/sprNeutroniumWallet.png", 1, false, false, 0, 0);
+    SetOffset(_sprNeutroniumWallet);
+    _sprNeutroniumBow = sprite_add("spr/sprNeutroniumBow.png", 1, false, false, 0, 0);
+    SetOffset(_sprNeutroniumBow);
     
     // ITEMS
     ItemPileOfNeutronium = ItemCreate(undefined, "Pile of Neturonium", "piece of the world", _sprPileOfNeutronium, ItemType.Material,
@@ -61,6 +66,10 @@
         ItemSubType.None, 100000, 0, 0, undefined, ScriptWrap(UsePickaxe), undefined, undefined, 7);
     ItemNeutroniumSword = ItemCreate(undefined, "Neutronium Sword", "", _sprNeutroniumSword, ItemType.Gear,
         ItemSubType.None, 100000, 0, 0, undefined, ScriptWrap(UseSword), undefined, undefined, 7);
+    ItemNeutroniumAmulet = ItemCreate(undefined, "Neutronium Amulet", "", _sprNeutroniumAmulet, ItemType.Gear,
+        ItemSubType.None, 10000, 0, 0, undefined);
+    ItemNeutroniumBow = ItemCreate(undefined, "Neutronium Bow", "", _sprNeutroniumBow, ItemType.Gear,
+        ItemSubType.None, 10000, 0, 0, undefined, ScriptWrap(UseBow));
         
         
     // STRUCTURES
@@ -93,8 +102,17 @@
     GearCategoryAddItems(Gear.Book, ItemNeutroniumBook);
     GearCategoryAddItems(Gear.Pickaxe, ItemNeutroniumPickaxe);
     GearCategoryAddItems(Gear.Sword, ItemNeutroniumSword);
-
-
+    GearCategoryAddItems(Gear.Amulet, ItemNeutroniumAmulet);
+    GearCategoryAddItems(Gear.Wallet, ItemNeutroniumWallet);
+    GearCategoryAddItems(Gear.Bow, ItemNeutroniumBow);
+    
+#define OnStructureBuild(inst, structure)
+    if (structure==StructureNeutronCompressor) {
+        inst.image_speed = 0.1; 
+    }
+    if (structure == StructureNeutronCollector) {
+        inst.image_speed = 0.1;
+    }
 #define SingularityCreate(name, description, _spr, value, recipe)
     var _sprite = sprite_add("spr/" + "spr" + _spr + "Singularity.png", 1, false, false, 0, 0);
     SetOffset(_sprite);
