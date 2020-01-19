@@ -33,7 +33,7 @@
     SetOffset(_sprNeutronCompressor);
     _sprDireForge = sprite_add("spr/sprDireForge.png", 1, false, false, 0, 0);
     SetOffset(_sprDireForge);
-    _sprNeutroniumBook = sprite_add("spr/sprNeutroniumBook.png", 1, false, false, 0, 0);
+    _sprNeutroniumBook = sprite_add("spr/sprNeutroniumBook.png", 2, false, false, 16, 16);
     SetOffset(_sprNeutroniumBook);
     _sprNeutroniumPickaxe = sprite_add("spr/sprNeutroniumPickaxe.png", 1, false, false, 0, 0);
     SetOffset(_sprNeutroniumPickaxe);
@@ -65,7 +65,7 @@
         ItemSubType.None, 1000, 0, 0, [Item.Plastic, 15, Item.BottledOil, 10, Item.RoyalClothing, 10]);
     ItemInfinityCatalyst = ItemCreate(undefined, "Infinity Catalyst", "", _sprInfinityCatalyst, ItemType.Material,
         ItemSubType.None, 1000000, 0, 0, [ItemPlasticLattice, 99, ItemInfinityIngot, 30, ItemNeutroniumIngot, 80, ItemCrystalMatrix, 100]);
-    // NEUTROMIUM ITEMS  
+    // NEUTRONIUM ITEMS  
     ItemNeutroniumBook = ItemCreate(undefined, "Neutronium Book", "", _sprNeutroniumBook, ItemType.Gear,
         ItemSubType.None, 10000000, 0, 0, undefined);
     ItemNeutroniumPickaxe = ItemCreate(undefined, "Neutronium Pickaxe", "", _sprNeutroniumPickaxe, ItemType.Gear,
@@ -82,8 +82,7 @@
         ItemSubType.None, 10000, 0, 0, undefined);
     ItemNeutroniumGloves = ItemCreate(undefined, "Neutronium Gloves", "", _sprNeutroniumGloves, ItemType.Gear,
         ItemSubType.None, 10000, 0, 0, undefined);
-        
-        
+
     // STRUCTURES
     StructureNeutronCollector = StructureCreate(undefined, "Neutron Collector", "step by step to rich", StructureType.Base ,
         _sprNeutronCollector, undefined, [Item.LegendaryGem, 10, Item.NuclearFuelCell, 10, Item.ToxicSludge, 10], 2, true,
