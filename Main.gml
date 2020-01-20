@@ -130,7 +130,7 @@
     GearCategoryAddItems(Gear.Boots, ItemNeutroniumBoots);
     GearCategoryAddItems(Gear.Gloves, ItemNeutroniumGloves);
     
-#define OnUseSword(item)
+#define OnItemUse(item)
     if(item == ItemInfinitySword){
         repeat(100){
             ZapSpawn();
