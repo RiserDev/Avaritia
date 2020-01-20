@@ -51,6 +51,8 @@
     SetOffset(_sprNeutroniumGloves);
     _sprExtremeStew = sprite_add("spr/sprExtremeStew.png", 28, false, false, 16, 16);
     SetOffset(_sprExtremeStew);
+    _sprInfinitySword = sprite_add("spr/sprInfinitySword.png", 1, false, false, 0, 0);
+    SetOffset(_sprInfinitySword);
     
     // ITEMS
     ItemPileOfNeutronium = ItemCreate(undefined, "Pile of Neturonium", "piece of the world", _sprPileOfNeutronium, ItemType.Material,
@@ -89,7 +91,7 @@
         Item.Fish, 1, Item.HotPepper, 1, Item.Meat, 1, Item.Pumpkin, 1, Item.Seaweed, 1], ScriptWrap(UseConsume));
     // INFINITY ITEMS
     ItemInfinitySword = ItemCreate(undefined, "Infinity Sword", "NOTHING BIGGER", _sprInfinitySword, ItemType.Gear,
-        ItemSubType.None, )
+        ItemSubType.None, 100000000, 0, 0, [], ScriptWrap(UseSword), 50, true, 999999);
 
     // STRUCTURES
     StructureNeutronCollector = StructureCreate(undefined, "Neutron Collector", "step by step to rich", StructureType.Base ,
@@ -121,14 +123,20 @@
     // GEARS
     GearCategoryAddItems(Gear.Book, ItemNeutroniumBook);
     GearCategoryAddItems(Gear.Pickaxe, ItemNeutroniumPickaxe);
-    GearCategoryAddItems(Gear.Sword, ItemNeutroniumSword);
+    GearCategoryAddItems(Gear.Sword, ItemNeutroniumSword, ItemInfinitySword);
     GearCategoryAddItems(Gear.Amulet, ItemNeutroniumAmulet);
     GearCategoryAddItems(Gear.Wallet, ItemNeutroniumWallet);
     GearCategoryAddItems(Gear.Bow, ItemNeutroniumBow);
     GearCategoryAddItems(Gear.Boots, ItemNeutroniumBoots);
     GearCategoryAddItems(Gear.Gloves, ItemNeutroniumGloves);
     
-
+#define OnUseSword(item)
+    if(item == ItemInfinitySword){
+        repeat(100){
+            ZapSpawn();
+        }
+        // ScriptWrap(UseSword);
+    }
 #define OnStructureBuild(inst, structure)
     if (structure == StructureNeutronCompressor) {
         inst.image_speed = 0.1; 
