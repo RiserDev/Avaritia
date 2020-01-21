@@ -3,13 +3,14 @@
     globalvar ItemPileOfNeutronium, ItemNeutroniumNugget, ItemNeutroniumIngot, ItemInfinityIngot, ItemCrystalMatrix,
         ItemPlasticLattice, ItemInfinityCatalyst, ItemJellySingularity, ItemBoneSingularity, ItemIronSingularity,
         ItemGoldSingularity, ItemSteelSingularity, ItemVoidSingularity, ItemCosmicSingularity, ItemUraniumSingularity,
-        ItemNeutroniumBook, ItemNeutroniumPickaxe, ItemNeutroniumSword, ItemNeutroniumAmulet, ItemNeutroniumWallet,
-        ItemNeutroniumBow, ItemNeutroniumBoots, ItemNeutroniumGloves, ItemExtremeStew, ItemInfinitySword; 
+        ItemCrystalSingularity, ItemNeutroniumBook, ItemNeutroniumPickaxe, ItemNeutroniumSword, ItemNeutroniumAmulet,
+        ItemNeutroniumWallet, ItemNeutroniumBow, ItemNeutroniumBoots, ItemNeutroniumGloves, ItemExtremeStew, ItemInfinitySword,
+        ItemInfinityPickaxe; 
     globalvar StructureNeutronCollector, StructureNeutronCompressor, StructureDireForge;
     globalvar _sprPileOfNeutronium, _sprNeutroniumNugget, _sprNeutroniumIngot, _sprInfinityIngot, _sprCrystalMatrix,
         _sprNeutronCompressor, _sprNeutronCollector, _sprDireForge, _sprPlasticLattice, _sprInfinityCatalyst, _sprNeutroniumBook,
         _sprNeutroniumPickaxe, _sprNeutroniumSword, _sprNeutroniumAmulet, _sprNeutroniumWallet, _sprNeutroniumBow,
-        _sprNeutroniumBoots, _sprNeutroniumGloves, _sprExtremeStew, _sprInfinitySword;
+        _sprNeutroniumBoots, _sprNeutroniumGloves, _sprExtremeStew, _sprInfinitySword, _sprInfinityPickaxe;
 
     
     // SPRITES
@@ -29,7 +30,7 @@
     SetOffset(_sprInfinityCatalyst);
     _sprNeutronCollector = sprite_add("spr/sprNeutronCollector.png", 4, false, false, 32, 32);
     SetOffset(_sprNeutronCollector);
-    _sprNeutronCompressor = sprite_add("spr/sprNeutronCompressor.png", 4, false, false, 32, 32);
+    _sprNeutronCompressor = sprite_add("spr/sprNeutronCompressor.png", 3, false, false, 64, 64);
     SetOffset(_sprNeutronCompressor);
     _sprDireForge = sprite_add("spr/sprDireForge.png", 1, false, false, 0, 0);
     SetOffset(_sprDireForge);
@@ -53,6 +54,8 @@
     SetOffset(_sprExtremeStew);
     _sprInfinitySword = sprite_add("spr/sprInfinitySword.png", 1, false, false, 0, 0);
     SetOffset(_sprInfinitySword);
+    _sprInfinityPickaxe = sprite_add("spr/sprInfinityPickaxe.png", 1, false, false, 0, 0);
+    SetOffset(_sprInfinityPickaxe);
     
     // ITEMS
     ItemPileOfNeutronium = ItemCreate(undefined, "Pile of Neturonium", "piece of the world", _sprPileOfNeutronium, ItemType.Material,
@@ -92,7 +95,10 @@
     // INFINITY ITEMS
     ItemInfinitySword = ItemCreate(undefined, "Infinity Sword", "NOTHING BIGGER", _sprInfinitySword, ItemType.Gear,
         ItemSubType.None, 100000000, 0, 0, [], ScriptWrap(UseSword), 50, true, 999999);
-
+    ItemInfinityPickaxe = ItemCreate(undefined, "Infinity Pickaxe", "NOTHING BIGGER", _sprInfinityPickaxe, ItemType.Gear,
+        ItemSubType.None, 100000000, 0, 0, [], ScriptWrap(UsePickaxe), 50, true, 999999);
+    
+    
     // STRUCTURES
     StructureNeutronCollector = StructureCreate(undefined, "Neutron Collector", "step by step to rich", StructureType.Base ,
         _sprNeutronCollector, undefined, [Item.LegendaryGem, 10, Item.NuclearFuelCell, 10, Item.ToxicSludge, 10], 2, true,
@@ -116,13 +122,14 @@
     ItemIronSingularity = SingularityCreate("Iron", "", "Iron", 10000, [Item.IronIngot, 5000]);
     ItemGoldSingularity = SingularityCreate("Gold", "", "Gold", 20000, [Item.GoldIngot, 5000]);
     ItemSteelSingularity = SingularityCreate("Steel", "", "Steel", 25000, [Item.Steel, 5000]);
+    ItemCrystalSingularity = SingularityCreate("Crystal", "", "Crystal", 30000, [Item.Crystal, 5000]);
     ItemVoidSingularity = SingularityCreate("Void", "", "Void", 40000, [Item.VoidSteel, 5000]);
     ItemCosmicSingularity = SingularityCreate("Cosmic", "", "Cosmic", 50000, [Item.CosmicSteel, 5000]);
     ItemUraniumSingularity = SingularityCreate("Uranium", "", "Uranium", 60000, [Item.Uranium, 5000]);
     
     // GEARS
     GearCategoryAddItems(Gear.Book, ItemNeutroniumBook);
-    GearCategoryAddItems(Gear.Pickaxe, ItemNeutroniumPickaxe);
+    GearCategoryAddItems(Gear.Pickaxe, ItemNeutroniumPickaxe, ItemInfinityPickaxe);
     GearCategoryAddItems(Gear.Sword, ItemNeutroniumSword, ItemInfinitySword);
     GearCategoryAddItems(Gear.Amulet, ItemNeutroniumAmulet);
     GearCategoryAddItems(Gear.Wallet, ItemNeutroniumWallet);
@@ -130,9 +137,12 @@
     GearCategoryAddItems(Gear.Boots, ItemNeutroniumBoots);
     GearCategoryAddItems(Gear.Gloves, ItemNeutroniumGloves);
     
+    
+    
 #define OnItemUse(item)
     if(item == ItemInfinitySword){
         repeat(100){
+            // ZapSpawn.rang
             ZapSpawn();
         }
         // ScriptWrap(UseSword);
