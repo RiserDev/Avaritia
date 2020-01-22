@@ -12,8 +12,10 @@
         _sprNeutroniumPickaxe, _sprNeutroniumSword, _sprNeutroniumAmulet, _sprNeutroniumWallet, _sprNeutroniumBow,
         _sprNeutroniumBoots, _sprNeutroniumGloves, _sprExtremeStew, _sprInfinitySword, _sprInfinityPickaxe, _sprBlackHoleBomb,
         _sprMatrixEye;
+    globalvar GearMatrixEye
     globalvar _instBlackHoleBomb, _instMatrixEye;
     globalvar prepare, prepareTick, eyeTick;
+
 
     // SPRITES
     _sprPileOfNeutronium = sprite_add("spr/sprPileOfNeutronium.png", 1, false, false, 0, 0);
@@ -107,7 +109,7 @@
     
     ItemBlackHoleBomb = ItemCreate(undefined, "Black-Hole Bomb", "", _sprBlackHoleBomb, ItemType.Consumable,
         ItemSubType.None, 1000000, 0, 0, undefined, ScriptWrap(BlackHole), undefined, true, 9999);
-    ItemMatrixEye = ItemCreate(undefined, "Matrix Eye", "", _sprMatrixEye, ItemType.Consumable,
+    ItemMatrixEye = ItemCreate(undefined, "Matrix Eye", "", _sprMatrixEye, ItemType.Gear,
         ItemSubType.None, 100000, 0, 0, undefined, ScriptWrap(MatrixEye));
     
     
@@ -127,8 +129,8 @@
         [ItemNeutroniumIngot, ItemInfinityIngot, ItemInfinityCatalyst], true, BuildMenuCategory.Industrial, undefined);
         
     StructureAddItem(Structure.Forge, ItemCrystalMatrix, ItemNeutroniumNugget);
-    StructureAddItem(Structure.Factory, ItemPlasticLattice);
-    StructureAddItem(Structure.Cauldron, ItemExtremeStew);
+    StructureAddItem(Structure.Factory, ItemPlasticLattice, ItemBlackHoleBomb);
+    StructureAddItem(Structure.Cauldron, ItemExtremeStew, Item);
     
     // SINGULARITIES
     ItemJellySingularity = SingularityCreate("Jelly", "", "Jelly", 10000, [Item.Jelly, 5000]);
@@ -142,6 +144,8 @@
     ItemUraniumSingularity = SingularityCreate("Uranium", "", "Uranium", 60000, [Item.Uranium, 5000]);
     
     // GEARS
+    GearMatrixEye = GearCategoryCreate(undefined, "Matrix Eye", true);
+    
     GearCategoryAddItems(Gear.Book, ItemNeutroniumBook);
     GearCategoryAddItems(Gear.Pickaxe, ItemNeutroniumPickaxe, ItemInfinityPickaxe);
     GearCategoryAddItems(Gear.Sword, ItemNeutroniumSword, ItemInfinitySword);
@@ -150,6 +154,8 @@
     GearCategoryAddItems(Gear.Bow, ItemNeutroniumBow);
     GearCategoryAddItems(Gear.Boots, ItemNeutroniumBoots);
     GearCategoryAddItems(Gear.Gloves, ItemNeutroniumGloves);
+    GearCategoryAddItems(GearMatrixEye, ItemMatrixEye);
+    
     
     
     
@@ -201,8 +207,8 @@
                 // prepare = false;
             }
             prepareTick--;
-            Trace(prepare);
-            Trace(prepareTick);
+            // Trace(prepare);
+            // Trace(prepareTick);
         }
 #define OnStructureBuild(inst, structure)
     if (structure == StructureNeutronCompressor) {
