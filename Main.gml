@@ -16,6 +16,9 @@
     globalvar _instBlackHoleBomb, _instMatrixEye;
     globalvar prepare, prepareTick, eyeTick;
 
+    // GEARS
+    GearMatrixEye = GearCategoryCreate(undefined, "Matrix Eye", true);
+
 
     // SPRITES
     _sprPileOfNeutronium = sprite_add("spr/sprPileOfNeutronium.png", 1, false, false, 0, 0);
@@ -110,7 +113,7 @@
     ItemBlackHoleBomb = ItemCreate(undefined, "Black-Hole Bomb", "", _sprBlackHoleBomb, ItemType.Consumable,
         ItemSubType.None, 1000000, 0, 0, undefined, ScriptWrap(BlackHole), undefined, true, 9999);
     ItemMatrixEye = ItemCreate(undefined, "Matrix Eye", "", _sprMatrixEye, ItemType.Gear,
-        ItemSubType.None, 100000, 0, 0, undefined, ScriptWrap(MatrixEye));
+        ItemSubType.None, 100000, 0, 0, undefined, ScriptWrap(MatrixEye), 30);
     
     
     
@@ -126,11 +129,12 @@
         
     StructureDireForge = StructureCreate(undefined, "Dire Forge", "make incredible", StructureType.Base, _sprDireForge,
         undefined, [ItemCrystalMatrix, 80, Item.NuclearFuelCell, 10, Item.VoidSteel, 60, Item.CosmicSteel, 30], 2, true,
-        [ItemNeutroniumIngot, ItemInfinityIngot, ItemInfinityCatalyst], true, BuildMenuCategory.Industrial, undefined);
+        [ItemNeutroniumIngot, ItemInfinityIngot, ItemInfinityCatalyst], true, BuildMenuCategory.Industrial, [GearMatrixEye]);
         
     StructureAddItem(Structure.Forge, ItemCrystalMatrix, ItemNeutroniumNugget);
     StructureAddItem(Structure.Factory, ItemPlasticLattice, ItemBlackHoleBomb);
-    StructureAddItem(Structure.Cauldron, ItemExtremeStew, Item);
+    StructureAddItem(Structure.Cauldron, ItemExtremeStew);
+    StructureAddItem(StructureDireForge, ItemMatrixEye);
     
     // SINGULARITIES
     ItemJellySingularity = SingularityCreate("Jelly", "", "Jelly", 10000, [Item.Jelly, 5000]);
@@ -144,7 +148,7 @@
     ItemUraniumSingularity = SingularityCreate("Uranium", "", "Uranium", 60000, [Item.Uranium, 5000]);
     
     // GEARS
-    GearMatrixEye = GearCategoryCreate(undefined, "Matrix Eye", true);
+
     
     GearCategoryAddItems(Gear.Book, ItemNeutroniumBook);
     GearCategoryAddItems(Gear.Pickaxe, ItemNeutroniumPickaxe, ItemInfinityPickaxe);
@@ -177,14 +181,18 @@
     
     var _xDelta = lengthdir_x(6, direction);
     var _yDelta = lengthdir_y(6, direction);
+    x += _xDelta;
+    y += _yDelta;
     if(eyeTick <= 0){
         objPlayer.x = id.x;
         objPlayer.y = id.y;
-        instance_destroy(id);    
+        instance_destroy(id);
+        repeat(100){
+            ZapSpawn();
+        }
     }
     eyeTick--;
-    x += _xDelta;
-    y += _yDelta;
+   
 #define BlackHole
     prepare = true
     prepareTick = 50;
