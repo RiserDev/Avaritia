@@ -5,14 +5,16 @@
         ItemGoldSingularity, ItemSteelSingularity, ItemVoidSingularity, ItemCosmicSingularity, ItemUraniumSingularity,
         ItemCrystalSingularity, ItemNeutroniumBook, ItemNeutroniumPickaxe, ItemNeutroniumSword, ItemNeutroniumAmulet,
         ItemNeutroniumWallet, ItemNeutroniumBow, ItemNeutroniumBoots, ItemNeutroniumGloves, ItemExtremeStew, ItemInfinitySword,
-        ItemInfinityPickaxe; 
+        ItemInfinityPickaxe, ItemBlackHoleBomb, ItemMatrixEye; 
     globalvar StructureNeutronCollector, StructureNeutronCompressor, StructureDireForge;
     globalvar _sprPileOfNeutronium, _sprNeutroniumNugget, _sprNeutroniumIngot, _sprInfinityIngot, _sprCrystalMatrix,
         _sprNeutronCompressor, _sprNeutronCollector, _sprDireForge, _sprPlasticLattice, _sprInfinityCatalyst, _sprNeutroniumBook,
         _sprNeutroniumPickaxe, _sprNeutroniumSword, _sprNeutroniumAmulet, _sprNeutroniumWallet, _sprNeutroniumBow,
-        _sprNeutroniumBoots, _sprNeutroniumGloves, _sprExtremeStew, _sprInfinitySword, _sprInfinityPickaxe;
+        _sprNeutroniumBoots, _sprNeutroniumGloves, _sprExtremeStew, _sprInfinitySword, _sprInfinityPickaxe, _sprBlackHoleBomb,
+        _sprMatrixEye;
+    globalvar _instBlackHoleBomb, _instMatrixEye;
+    globalvar prepare, prepareTick, eyeTick;
 
-    
     // SPRITES
     _sprPileOfNeutronium = sprite_add("spr/sprPileOfNeutronium.png", 1, false, false, 0, 0);
     SetOffset(_sprPileOfNeutronium);
@@ -56,6 +58,10 @@
     SetOffset(_sprInfinitySword);
     _sprInfinityPickaxe = sprite_add("spr/sprInfinityPickaxe.png", 1, false, false, 0, 0);
     SetOffset(_sprInfinityPickaxe);
+    _sprBlackHoleBomb = sprite_add("spr/sprBlackHoleBomb.png", 1, false, false, 0, 0);
+    SetOffset(_sprBlackHoleBomb);
+    _sprMatrixEye = sprite_add("spr/sprMatrixEye.png", 1, false, false, 0, 0);
+    SetOffset(_sprMatrixEye);
     
     // ITEMS
     ItemPileOfNeutronium = ItemCreate(undefined, "Pile of Neturonium", "piece of the world", _sprPileOfNeutronium, ItemType.Material,
@@ -97,6 +103,14 @@
         ItemSubType.None, 100000000, 0, 0, [], ScriptWrap(UseSword), 50, true, 999999);
     ItemInfinityPickaxe = ItemCreate(undefined, "Infinity Pickaxe", "NOTHING BIGGER", _sprInfinityPickaxe, ItemType.Gear,
         ItemSubType.None, 100000000, 0, 0, [], ScriptWrap(UsePickaxe), 50, true, 999999);
+    
+    
+    ItemBlackHoleBomb = ItemCreate(undefined, "Black-Hole Bomb", "", _sprBlackHoleBomb, ItemType.Consumable,
+        ItemSubType.None, 1000000, 0, 0, undefined, ScriptWrap(BlackHole), undefined, true, 9999);
+    ItemMatrixEye = ItemCreate(undefined, "Matrix Eye", "", _sprMatrixEye, ItemType.Consumable,
+        ItemSubType.None, 100000, 0, 0, undefined, ScriptWrap(MatrixEye));
+    
+    
     
     
     // STRUCTURES
@@ -142,11 +156,54 @@
 #define OnItemUse(item)
     if(item == ItemInfinitySword){
         repeat(100){
-            // ZapSpawn.rang
             ZapSpawn();
         }
-        // ScriptWrap(UseSword);
     }
+#define MatrixEye
+    _instMatrixEye = ModObjectSpawn(objPlayer.x, objPlayer.y, 0);
+    eyeTick = 20;
+    with(_instMatrixEye){
+        sprite_index = _sprMatrixEye;
+        direction = point_direction(objPlayer.x, objPlayer.y, mouse_x, mouse_y);
+        InstanceAssignMethod(id, "step", ScriptWrap(MatrixEyeUpdate));
+    }
+#define MatrixEyeUpdate
+    
+    var _xDelta = lengthdir_x(6, direction);
+    var _yDelta = lengthdir_y(6, direction);
+    if(eyeTick <= 0){
+        objPlayer.x = id.x;
+        objPlayer.y = id.y;
+        instance_destroy(id);    
+    }
+    eyeTick--;
+    x += _xDelta;
+    y += _yDelta;
+#define BlackHole
+    prepare = true
+    prepareTick = 50;
+    _instBlackHoleBomb = ModObjectSpawn(objPlayer.x, objPlayer.y, 0);
+
+    with(_instBlackHoleBomb){
+        // _instBlackHoleBombBG = ModObjectSpawn(objPlayer.x, objPlayer.y, 0);
+        // with(_instBlackHoleBombBG){
+        //     sprite_index = ;
+        // }
+        sprite_index = _sprBlackHoleBomb;
+        InstanceAssignMethod(id, "step", ScriptWrap(BlackHoleUpdate));
+    }
+    
+#define BlackHoleUpdate
+        if(prepare){
+            if(prepareTick <= 0){
+                ExplosionCreate(x, y, 3330, false);
+                instance_destroy(id);
+                // prepare = false;
+            }
+            prepareTick--;
+            Trace(prepare);
+            Trace(prepareTick);
+        }
 #define OnStructureBuild(inst, structure)
     if (structure == StructureNeutronCompressor) {
         inst.image_speed = 0.1; 
