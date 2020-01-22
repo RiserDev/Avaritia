@@ -15,6 +15,7 @@
     globalvar GearMatrixEye
     globalvar _instBlackHoleBomb, _instMatrixEye;
     globalvar prepare, prepareTick, eyeTick;
+    globalvar playerX, playerY;
 
     // GEARS
     GearMatrixEye = GearCategoryCreate(undefined, "Matrix Eye", true);
@@ -115,7 +116,27 @@
     ItemMatrixEye = ItemCreate(undefined, "Matrix Eye", "", _sprMatrixEye, ItemType.Gear,
         ItemSubType.None, 100000, 0, 0, undefined, ScriptWrap(MatrixEye), 30);
     
-    
+    // ALSO ITEMS
+    ItemEdit(ItemPileOfNeutronium, ItemData.CraftingTime, 10);
+    ItemEdit(ItemNeutroniumNugget, ItemData.CraftingTime, 10);
+    ItemEdit(ItemNeutroniumIngot, ItemData.CraftingTime, 10);
+    ItemEdit(ItemInfinityIngot, ItemData.CraftingTime, 10);
+    ItemEdit(ItemCrystalMatrix, ItemData.CraftingTime, 10);
+    ItemEdit(ItemPlasticLattice, ItemData.CraftingTime, 10);
+    ItemEdit(ItemInfinityCatalyst, ItemData.CraftingTime, 10);
+    ItemEdit(ItemNeutroniumBook, ItemData.CraftingTime, 10);
+    ItemEdit(ItemNeutroniumPickaxe, ItemData.CraftingTime, 10);
+    ItemEdit(ItemNeutroniumSword, ItemData.CraftingTime, 10);
+    ItemEdit(ItemNeutroniumAmulet, ItemData.CraftingTime, 10);
+    ItemEdit(ItemNeutroniumWallet, ItemData.CraftingTime, 10);
+    ItemEdit(ItemNeutroniumBow, ItemData.CraftingTime, 10);
+    ItemEdit(ItemNeutroniumBoots, ItemData.CraftingTime, 10);
+    ItemEdit(ItemNeutroniumGloves, ItemData.CraftingTime, 10);
+    ItemEdit(ItemExtremeStew, ItemData.CraftingTime, 10);
+    ItemEdit(ItemInfinitySword, ItemData.CraftingTime, 10);
+    ItemEdit(ItemInfinityPickaxe, ItemData.CraftingTime, 10);
+    ItemEdit(ItemBlackHoleBomb, ItemData.CraftingTime, 10);
+    ItemEdit(ItemMatrixEye, ItemData.CraftingTime, 10);
     
     
     // STRUCTURES
@@ -147,6 +168,16 @@
     ItemCosmicSingularity = SingularityCreate("Cosmic", "", "Cosmic", 50000, [Item.CosmicSteel, 5000]);
     ItemUraniumSingularity = SingularityCreate("Uranium", "", "Uranium", 60000, [Item.Uranium, 5000]);
     
+    ItemEdit(ItemJellySingularity, ItemData.CraftingTime, 10);
+    ItemEdit(ItemBoneSingularity, ItemData.CraftingTime, 10);
+    ItemEdit(ItemIronSingularity, ItemData.CraftingTime, 10);
+    ItemEdit(ItemGoldSingularity, ItemData.CraftingTime, 10);
+    ItemEdit(ItemSteelSingularity, ItemData.CraftingTime, 10);
+    ItemEdit(ItemVoidSingularity, ItemData.CraftingTime, 10);
+    ItemEdit(ItemCosmicSingularity, ItemData.CraftingTime, 10);
+    ItemEdit(ItemUraniumSingularity, ItemData.CraftingTime, 10);
+    ItemEdit(ItemCrystalSingularity, ItemData.CraftingTime, 10);
+    
     // GEARS
 
     
@@ -171,7 +202,7 @@
     }
 #define MatrixEye
     _instMatrixEye = ModObjectSpawn(objPlayer.x, objPlayer.y, 0);
-    eyeTick = 20;
+    eyeTick = 30;
     with(_instMatrixEye){
         sprite_index = _sprMatrixEye;
         direction = point_direction(objPlayer.x, objPlayer.y, mouse_x, mouse_y);
@@ -184,13 +215,23 @@
     x += _xDelta;
     y += _yDelta;
     if(eyeTick <= 0){
-        objPlayer.x = id.x;
-        objPlayer.y = id.y;
-        instance_destroy(id);
-        repeat(100){
-            ZapSpawn();
+        if(id.x >= 0 && id.y >= 0 ){
+            if(id.x <= 1300 && id.y <= 1300){
+                objPlayer.x = id.x;
+                objPlayer.y = id.y;
+                instance_destroy(id);
+                repeat(100){
+                    ZapSpawn();
+                }
+            }
         }
     }
+    // playerX = "X: " + objPlayer.x;
+    // playerY = "Y: " + objPlayer.y;
+    // Trace("X:");
+    // Trace(objPlayer.x);
+    // Trace("Y:");
+    // Trace(objPlayer.y);
     eyeTick--;
    
 #define BlackHole
