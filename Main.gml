@@ -1,27 +1,32 @@
 #define Main
-    //VARS
+
+    __FeatMain();
+    
+    #region VARS
     globalvar ItemPileOfNeutronium, ItemNeutroniumNugget, ItemNeutroniumIngot, ItemInfinityIngot, ItemCrystalMatrix,
         ItemPlasticLattice, ItemInfinityCatalyst, ItemJellySingularity, ItemBoneSingularity, ItemIronSingularity,
         ItemGoldSingularity, ItemSteelSingularity, ItemVoidSingularity, ItemCosmicSingularity, ItemUraniumSingularity,
         ItemCrystalSingularity, ItemNeutroniumBook, ItemNeutroniumPickaxe, ItemNeutroniumSword, ItemNeutroniumAmulet,
         ItemNeutroniumWallet, ItemNeutroniumBow, ItemNeutroniumBoots, ItemNeutroniumGloves, ItemExtremeStew, ItemInfinitySword,
-        ItemInfinityPickaxe, ItemBlackHoleBomb, ItemMatrixEye; 
+        ItemInfinityPickaxe, ItemInfinityAmulet, ItemInfinityBook,ItemBlackHoleBomb, ItemMatrixEye; 
     globalvar StructureNeutronCollector, StructureNeutronCompressor, StructureDireForge;
     globalvar _sprPileOfNeutronium, _sprNeutroniumNugget, _sprNeutroniumIngot, _sprInfinityIngot, _sprCrystalMatrix,
         _sprNeutronCompressor, _sprNeutronCollector, _sprDireForge, _sprPlasticLattice, _sprInfinityCatalyst, _sprNeutroniumBook,
         _sprNeutroniumPickaxe, _sprNeutroniumSword, _sprNeutroniumAmulet, _sprNeutroniumWallet, _sprNeutroniumBow,
         _sprNeutroniumBoots, _sprNeutroniumGloves, _sprExtremeStew, _sprInfinitySword, _sprInfinityPickaxe, _sprBlackHoleBomb,
-        _sprMatrixEye;
+        _sprMatrixEye, _sprInfinityAmulet, _sprInfinityBook;
     globalvar GearMatrixEye
     globalvar _instBlackHoleBomb, _instMatrixEye;
     globalvar prepare, prepareTick, eyeTick;
     globalvar playerX, playerY;
-
-    // GEARS
+    globalvar featDireForge, featNetronuimDude, featInfinityMan, featSingularity, featMatrixEye;
+    #endregion
+    
+    #region GEAR_CATEGORY_CREATE
     GearMatrixEye = GearCategoryCreate(undefined, "Matrix Eye", true);
+    #endregion
 
-
-    // SPRITES
+    #region SPRITES
     _sprPileOfNeutronium = sprite_add("spr/sprPileOfNeutronium.png", 1, false, false, 0, 0);
     SetOffset(_sprPileOfNeutronium);
     _sprNeutroniumNugget = sprite_add("spr/sprNeutroniumNugget.png", 1, false, false, 0, 0);
@@ -68,106 +73,131 @@
     SetOffset(_sprBlackHoleBomb);
     _sprMatrixEye = sprite_add("spr/sprMatrixEye.png", 1, false, false, 0, 0);
     SetOffset(_sprMatrixEye);
+    _sprInfinityAmulet = sprite_add("spr/sprInfinityAmulet.png", 1, false, false, 0, 0);
+    SetOffset(_sprInfinityAmulet);
+    _sprInfinityBook = sprite_add("spr/sprInfinityBook.png", 1, false, false, 0, 0);
+    SetOffset(_sprInfinityBook);
+    #endregion
     
-    // ITEMS
-    ItemPileOfNeutronium = ItemCreate(undefined, "Pile of Neturonium", "piece of the world", _sprPileOfNeutronium, ItemType.Material,
-        ItemSubType.None, 10, 0, 0, [Item.Wood, 1]);
-    ItemNeutroniumNugget = ItemCreate(undefined, "Neutronium Nugget", "also piece of the world", _sprNeutroniumNugget, ItemType.Material,
-        ItemSubType.None, 100, 0, 0, [ItemPileOfNeutronium, 10]);
-    ItemNeutroniumIngot = ItemCreate(undefined, "Neutronium Ingot", "bar of the world", _sprNeutroniumIngot, ItemType.Material,
-        ItemSubType.None, 10000, 0, 0, [ItemNeutroniumNugget, 30]);
-    ItemInfinityIngot = ItemCreate(undefined, "Infinity Ingot", "power of the all galaxy", _sprInfinityIngot, ItemType.Material,
-        ItemSubType.None, 100000, 0, 0, undefined);
-    ItemCrystalMatrix = ItemCreate(undefined, "Crystal Matrix", "", _sprCrystalMatrix, ItemType.Material,
-        ItemSubType.None, 1000, 0, 0, [Item.RoyalSteel, 10, Item.FiberGlass, 15]);
-    ItemPlasticLattice = ItemCreate(undefined, "Plastic Lattice", "", _sprPlasticLattice, ItemType.Material,
-        ItemSubType.None, 1000, 0, 0, [Item.Plastic, 15, Item.BottledOil, 10, Item.RoyalClothing, 10]);
-    ItemInfinityCatalyst = ItemCreate(undefined, "Infinity Catalyst", "", _sprInfinityCatalyst, ItemType.Material,
-        ItemSubType.None, 1000000, 0, 0, [ItemPlasticLattice, 99, ItemInfinityIngot, 30, ItemNeutroniumIngot, 80, ItemCrystalMatrix, 100]);
-    // NEUTRONIUM ITEMS  
-    ItemNeutroniumBook = ItemCreate(undefined, "Neutronium Book", "", _sprNeutroniumBook, ItemType.Gear,
-        ItemSubType.None, 10000000, 0, 0, undefined);
-    ItemNeutroniumPickaxe = ItemCreate(undefined, "Neutronium Pickaxe", "", _sprNeutroniumPickaxe, ItemType.Gear,
-        ItemSubType.None, 100000, 0, 0, undefined, ScriptWrap(UsePickaxe), undefined, undefined, 7);
-    ItemNeutroniumSword = ItemCreate(undefined, "Neutronium Sword", "", _sprNeutroniumSword, ItemType.Gear,
-        ItemSubType.None, 100000, 0, 0, undefined, ScriptWrap(UseSword), undefined, undefined, 7);
-    ItemNeutroniumAmulet = ItemCreate(undefined, "Neutronium Amulet", "", _sprNeutroniumAmulet, ItemType.Gear,
-        ItemSubType.None, 10000, 0, 0, undefined);
-    ItemNeutroniumWallet= ItemCreate(undefined, "Neutronium Wallet", "", _sprNeutroniumWallet, ItemType.Gear,
-        ItemSubType.None, 10000, 0, 0, undefined);
-    ItemNeutroniumBow = ItemCreate(undefined, "Neutronium Bow", "", _sprNeutroniumBow, ItemType.Gear,
-        ItemSubType.None, 10000, 0, 0, undefined);
-    ItemNeutroniumBoots = ItemCreate(undefined, "Neutronium Boots", "", _sprNeutroniumBoots, ItemType.Gear,
-        ItemSubType.None, 10000, 0, 0, undefined);
-    ItemNeutroniumGloves = ItemCreate(undefined, "Neutronium Gloves", "", _sprNeutroniumGloves, ItemType.Gear,
-        ItemSubType.None, 10000, 0, 0, undefined);
-    ItemExtremeStew = ItemCreate(undefined, "Extreme Stew", "for very hungry", _sprExtremeStew, ItemType.Consumable,
-        ItemSubType.None, 1000, 200, 2000, [Item.Beet, 1, Item.Berry, 1, Item.CactusFruit, 1, Item.Citrus, 1, Item.Egg, 1,
-        Item.Fish, 1, Item.HotPepper, 1, Item.Meat, 1, Item.Pumpkin, 1, Item.Seaweed, 1], ScriptWrap(UseConsume));
-    // INFINITY ITEMS
-    ItemInfinitySword = ItemCreate(undefined, "Infinity Sword", "NOTHING BIGGER", _sprInfinitySword, ItemType.Gear,
-        ItemSubType.None, 100000000, 0, 0, [], ScriptWrap(UseSword), 50, true, 999999);
-    ItemInfinityPickaxe = ItemCreate(undefined, "Infinity Pickaxe", "NOTHING BIGGER", _sprInfinityPickaxe, ItemType.Gear,
-        ItemSubType.None, 100000000, 0, 0, [], ScriptWrap(UsePickaxe), 50, true, 999999);
+    #region ITEMS
     
+        #region OTHER ITEMS
+        ItemPileOfNeutronium = ItemCreate(undefined, "Pile of Neturonium", "piece of the world", _sprPileOfNeutronium, ItemType.Material,
+            ItemSubType.None, 10, 0, 0, [Item.Wood, 1]);
+        ItemNeutroniumNugget = ItemCreate(undefined, "Neutronium Nugget", "also piece of the world", _sprNeutroniumNugget, ItemType.Material,
+            ItemSubType.None, 100, 0, 0, [ItemPileOfNeutronium, 10]);
+        ItemNeutroniumIngot = ItemCreate(undefined, "Neutronium Ingot", "bar of the world", _sprNeutroniumIngot, ItemType.Material,
+            ItemSubType.None, 10000, 0, 0, [ItemNeutroniumNugget, 30]);
+        ItemInfinityIngot = ItemCreate(undefined, "Infinity Ingot", "power of the all galaxy", _sprInfinityIngot, ItemType.Material,
+            ItemSubType.None, 100000, 0, 0, [Item.LegendaryGem, 10, Item.KrakenEye, 5]);
+        ItemCrystalMatrix = ItemCreate(undefined, "Crystal Matrix", "matrix", _sprCrystalMatrix, ItemType.Material,
+            ItemSubType.None, 1000, 0, 0, [Item.RoyalSteel, 10, Item.FiberGlass, 15]);
+        ItemPlasticLattice = ItemCreate(undefined, "Plastic Lattice", "gimme plastic", _sprPlasticLattice, ItemType.Material,
+            ItemSubType.None, 1000, 0, 0, [Item.Plastic, 15, Item.BottledOil, 10, Item.RoyalClothing, 5]);
+        ItemInfinityCatalyst = ItemCreate(undefined, "Infinity Catalyst", "stores all galaxy", _sprInfinityCatalyst, ItemType.Material,
+            ItemSubType.None, 1000000, 0, 0, [ItemPlasticLattice, 99, ItemInfinityIngot, 30, ItemNeutroniumIngot, 80, ItemCrystalMatrix, 100]);
+        ItemBlackHoleBomb = ItemCreate(undefined, "Black-Hole Bomb", "WARNING! it's not a toy", _sprBlackHoleBomb, ItemType.Consumable,
+            ItemSubType.None, 1000000, 0, 0, [ItemInfinityIngot, 4, Item.EMPGrenade, 1], ScriptWrap(BlackHole), undefined, true, 9999);
+        ItemMatrixEye = ItemCreate(undefined, "Matrix Eye", "Your uber has arrived", _sprMatrixEye, ItemType.Gear,
+            ItemSubType.None, 100000, 0, 0, [Item.KrakenEye, 30, Item.StarFragment, 50, ItemInfinityCatalyst, 2], ScriptWrap(MatrixEye), 30);
+        ItemExtremeStew = ItemCreate(undefined, "Extreme Stew", "galaxy food", _sprExtremeStew, ItemType.Consumable,
+                ItemSubType.None, 1000, 200, 2000, [Item.Beet, 1, Item.Berry, 1, Item.CactusFruit, 1, Item.Citrus, 1, Item.Egg, 1,
+                Item.Fish, 1, Item.HotPepper, 1, Item.Meat, 1, Item.Pumpkin, 1, Item.Seaweed, 1], ScriptWrap(UseConsume));
+        #endregion
+        
+        #region NEUTRONIUM_ITEMS  
+        ItemNeutroniumBook = ItemCreate(undefined, "Neutronium Book", "xp gained increased by 140%!", _sprNeutroniumBook, ItemType.Gear,
+            ItemSubType.None, 10000000, 0, 0, undefined);
+        ItemNeutroniumPickaxe = ItemCreate(undefined, "Neutronium Pickaxe", "resource and plants may drop pile of neutronium",
+            _sprNeutroniumPickaxe, ItemType.Gear,  ItemSubType.None, 100000, 0, 0, undefined, ScriptWrap(UsePickaxe),
+            undefined, undefined, 7);
+        ItemNeutroniumSword = ItemCreate(undefined, "Neutronium Sword", "enemies may drop pile of neutronium", _sprNeutroniumSword, ItemType.Gear,
+            ItemSubType.None, 100000, 0, 0, undefined, ScriptWrap(UseSword), undefined, undefined, 7);
+        ItemNeutroniumAmulet = ItemCreate(undefined, "Neutronium Amulet", "gain 220% more resources!", _sprNeutroniumAmulet, ItemType.Gear,
+            ItemSubType.None, 10000, 0, 0, undefined);
+        ItemNeutroniumWallet= ItemCreate(undefined, "Neutronium Wallet", "coins are worth 220% more!", _sprNeutroniumWallet, ItemType.Gear,
+            ItemSubType.None, 10000, 0, 0, undefined);
+        ItemNeutroniumBow = ItemCreate(undefined, "Neutronium Bow", "arrows may drop pile of neutronium on hit!", _sprNeutroniumBow, ItemType.Gear,
+            ItemSubType.None, 10000, 0, 0, undefined);
+        ItemNeutroniumBoots = ItemCreate(undefined, "Neutronium Boots", "move speed increase by 100%!\n gives a 50% chance to dodge attacks!", _sprNeutroniumBoots, ItemType.Gear,
+            ItemSubType.None, 10000, 0, 0, undefined);
+        ItemNeutroniumGloves = ItemCreate(undefined, "Neutronium Gloves", "attack speed increased by 100%", _sprNeutroniumGloves, ItemType.Gear,
+            ItemSubType.None, 10000, 0, 0, undefined);
+        #endregion
+        
+        #region INFINITY_ITEMS
+        ItemInfinitySword = ItemCreate(undefined, "Infinity Sword", "enemies may drop infinity ingot", _sprInfinitySword, ItemType.Gear,
+            ItemSubType.None, 100000000, 0, 0, [], ScriptWrap(UseSword), 50, true, 999999);
+        ItemInfinityPickaxe = ItemCreate(undefined, "Infinity Pickaxe", "resource and plants may drop infinity ingot ", _sprInfinityPickaxe, ItemType.Gear,
+            ItemSubType.None, 100000000, 0, 0, [], ScriptWrap(UsePickaxe), 50, true, 999999);
+        ItemInfinityAmulet = ItemCreate(undefined, "Infinity Amulet", "gain 240% more resources!", _sprInfinityAmulet, ItemType.Gear,
+            ItemSubType.None, 1000000, 0, 0, []);
+        ItemInfinityBook = ItemCreate(undefined, "Infinity Book", "xp gained increased by 160%", _sprInfinityBook, ItemType.Gear,
+            ItemSubType.None, 10000, 0, 0, []);
+        #endregion
+        
+        #region ITEMDATA.CRAFTING_TIME
+        ItemEdit(ItemPileOfNeutronium, ItemData.CraftingTime, 150);
+        ItemEdit(ItemNeutroniumNugget, ItemData.CraftingTime, 150);
+        ItemEdit(ItemNeutroniumIngot, ItemData.CraftingTime, 150);
+        ItemEdit(ItemInfinityIngot, ItemData.CraftingTime, 150);
+        ItemEdit(ItemCrystalMatrix, ItemData.CraftingTime, 150);
+        ItemEdit(ItemPlasticLattice, ItemData.CraftingTime, 150);
+        ItemEdit(ItemInfinityCatalyst, ItemData.CraftingTime, 150);
+        ItemEdit(ItemNeutroniumBook, ItemData.CraftingTime, 1000);
+        ItemEdit(ItemNeutroniumPickaxe, ItemData.CraftingTime, 1000);
+        ItemEdit(ItemNeutroniumSword, ItemData.CraftingTime, 1000);
+        ItemEdit(ItemNeutroniumAmulet, ItemData.CraftingTime, 1000);
+        ItemEdit(ItemNeutroniumWallet, ItemData.CraftingTime, 1000);
+        ItemEdit(ItemNeutroniumBow, ItemData.CraftingTime, 1000);
+        ItemEdit(ItemNeutroniumBoots, ItemData.CraftingTime, 1000);
+        ItemEdit(ItemNeutroniumGloves, ItemData.CraftingTime, 1000);
+        ItemEdit(ItemExtremeStew, ItemData.CraftingTime, 150);
+        ItemEdit(ItemInfinitySword, ItemData.CraftingTime, 1000);
+        ItemEdit(ItemInfinityPickaxe, ItemData.CraftingTime, 1000);
+        ItemEdit(ItemInfinityAmulet, ItemData.CraftingTime, 1000);
+        ItemEdit(ItemInfinityBook, ItemData.CraftingTime, 1000);
+        ItemEdit(ItemBlackHoleBomb, ItemData.CraftingTime, 150);
+        ItemEdit(ItemMatrixEye, ItemData.CraftingTime, 150);
+        #endregion
+        
+    #endregion
     
-    ItemBlackHoleBomb = ItemCreate(undefined, "Black-Hole Bomb", "", _sprBlackHoleBomb, ItemType.Consumable,
-        ItemSubType.None, 1000000, 0, 0, undefined, ScriptWrap(BlackHole), undefined, true, 9999);
-    ItemMatrixEye = ItemCreate(undefined, "Matrix Eye", "", _sprMatrixEye, ItemType.Gear,
-        ItemSubType.None, 100000, 0, 0, undefined, ScriptWrap(MatrixEye), 30);
-    
-    // ALSO ITEMS
-    ItemEdit(ItemPileOfNeutronium, ItemData.CraftingTime, 10);
-    ItemEdit(ItemNeutroniumNugget, ItemData.CraftingTime, 10);
-    ItemEdit(ItemNeutroniumIngot, ItemData.CraftingTime, 10);
-    ItemEdit(ItemInfinityIngot, ItemData.CraftingTime, 10);
-    ItemEdit(ItemCrystalMatrix, ItemData.CraftingTime, 10);
-    ItemEdit(ItemPlasticLattice, ItemData.CraftingTime, 10);
-    ItemEdit(ItemInfinityCatalyst, ItemData.CraftingTime, 10);
-    ItemEdit(ItemNeutroniumBook, ItemData.CraftingTime, 10);
-    ItemEdit(ItemNeutroniumPickaxe, ItemData.CraftingTime, 10);
-    ItemEdit(ItemNeutroniumSword, ItemData.CraftingTime, 10);
-    ItemEdit(ItemNeutroniumAmulet, ItemData.CraftingTime, 10);
-    ItemEdit(ItemNeutroniumWallet, ItemData.CraftingTime, 10);
-    ItemEdit(ItemNeutroniumBow, ItemData.CraftingTime, 10);
-    ItemEdit(ItemNeutroniumBoots, ItemData.CraftingTime, 10);
-    ItemEdit(ItemNeutroniumGloves, ItemData.CraftingTime, 10);
-    ItemEdit(ItemExtremeStew, ItemData.CraftingTime, 10);
-    ItemEdit(ItemInfinitySword, ItemData.CraftingTime, 10);
-    ItemEdit(ItemInfinityPickaxe, ItemData.CraftingTime, 10);
-    ItemEdit(ItemBlackHoleBomb, ItemData.CraftingTime, 10);
-    ItemEdit(ItemMatrixEye, ItemData.CraftingTime, 10);
-    
-    
-    // STRUCTURES
+    #region STRUCTURES
     StructureNeutronCollector = StructureCreate(undefined, "Neutron Collector", "step by step to rich", StructureType.Base ,
         _sprNeutronCollector, undefined, [Item.LegendaryGem, 10, Item.NuclearFuelCell, 10, Item.ToxicSludge, 10], 2, true,
         [ItemPileOfNeutronium], true, BuildMenuCategory.Magical, undefined);
         
     StructureNeutronCompressor = StructureCreate(undefined, "Neutron Compressor", "go to your rich", StructureType.Base,
-        _sprNeutronCompressor, undefined, [ItemPileOfNeutronium, 10, Item.KrakenEye, 20, Item.CosmicSteel, 10], 2, true, 
+        _sprNeutronCompressor, undefined, [ItemPileOfNeutronium, 10, Item.KrakenEye, 20, Item.CosmicSteel, 10], 3, true, 
         [], true, BuildMenuCategory.Industrial, [Gear.Book]);
         
     StructureDireForge = StructureCreate(undefined, "Dire Forge", "make incredible", StructureType.Base, _sprDireForge,
         undefined, [ItemCrystalMatrix, 80, Item.NuclearFuelCell, 10, Item.VoidSteel, 60, Item.CosmicSteel, 30], 2, true,
         [ItemNeutroniumIngot, ItemInfinityIngot, ItemInfinityCatalyst], true, BuildMenuCategory.Industrial, [GearMatrixEye]);
-        
+    
+    
+    #region STRUCTURE_ADD_ITEM 
     StructureAddItem(Structure.Forge, ItemCrystalMatrix, ItemNeutroniumNugget);
     StructureAddItem(Structure.Factory, ItemPlasticLattice, ItemBlackHoleBomb);
     StructureAddItem(Structure.Cauldron, ItemExtremeStew);
     StructureAddItem(StructureDireForge, ItemMatrixEye);
+    #endregion
     
-    // SINGULARITIES
-    ItemJellySingularity = SingularityCreate("Jelly", "", "Jelly", 10000, [Item.Jelly, 5000]);
-    ItemBoneSingularity = SingularityCreate("Bone", "", "Bone", 10000, [Item.Bone, 5000]);
-    ItemIronSingularity = SingularityCreate("Iron", "", "Iron", 10000, [Item.IronIngot, 5000]);
-    ItemGoldSingularity = SingularityCreate("Gold", "", "Gold", 20000, [Item.GoldIngot, 5000]);
-    ItemSteelSingularity = SingularityCreate("Steel", "", "Steel", 25000, [Item.Steel, 5000]);
-    ItemCrystalSingularity = SingularityCreate("Crystal", "", "Crystal", 30000, [Item.Crystal, 5000]);
-    ItemVoidSingularity = SingularityCreate("Void", "", "Void", 40000, [Item.VoidSteel, 5000]);
-    ItemCosmicSingularity = SingularityCreate("Cosmic", "", "Cosmic", 50000, [Item.CosmicSteel, 5000]);
-    ItemUraniumSingularity = SingularityCreate("Uranium", "", "Uranium", 60000, [Item.Uranium, 5000]);
+    #endregion
     
+    #region SINGULARITIES
+    ItemJellySingularity = SingularityCreate("Jelly", "Jelly", "Jelly", 10000, [Item.Jelly, 5000]);
+    ItemBoneSingularity = SingularityCreate("Bone", "Bone", "Bone", 10000, [Item.Bone, 5000]);
+    ItemIronSingularity = SingularityCreate("Iron", "Iron", "Iron", 10000, [Item.IronIngot, 5000]);
+    ItemGoldSingularity = SingularityCreate("Gold", "Gold", "Gold", 20000, [Item.GoldIngot, 5000]);
+    ItemSteelSingularity = SingularityCreate("Steel", "Steel", "Steel", 25000, [Item.Steel, 5000]);
+    ItemCrystalSingularity = SingularityCreate("Crystal", "Crystal", "Crystal", 30000, [Item.Crystal, 5000]);
+    ItemVoidSingularity = SingularityCreate("Void", "Void", "Void", 40000, [Item.VoidSteel, 5000]);
+    ItemCosmicSingularity = SingularityCreate("Cosmic", "Cosmic", "Cosmic", 50000, [Item.CosmicSteel, 5000]);
+    ItemUraniumSingularity = SingularityCreate("Uranium", "Uranium", "Uranium", 60000, [Item.Uranium, 5000]);
+    
+    #region ITEM_EDIT
     ItemEdit(ItemJellySingularity, ItemData.CraftingTime, 10);
     ItemEdit(ItemBoneSingularity, ItemData.CraftingTime, 10);
     ItemEdit(ItemIronSingularity, ItemData.CraftingTime, 10);
@@ -177,29 +207,95 @@
     ItemEdit(ItemCosmicSingularity, ItemData.CraftingTime, 10);
     ItemEdit(ItemUraniumSingularity, ItemData.CraftingTime, 10);
     ItemEdit(ItemCrystalSingularity, ItemData.CraftingTime, 10);
+    #endregion
     
-    // GEARS
-
+    #endregion
     
-    GearCategoryAddItems(Gear.Book, ItemNeutroniumBook);
+    #region GEARS
+    GearCategoryAddItems(Gear.Book, ItemNeutroniumBook, ItemInfinityBook);
     GearCategoryAddItems(Gear.Pickaxe, ItemNeutroniumPickaxe, ItemInfinityPickaxe);
     GearCategoryAddItems(Gear.Sword, ItemNeutroniumSword, ItemInfinitySword);
-    GearCategoryAddItems(Gear.Amulet, ItemNeutroniumAmulet);
+    GearCategoryAddItems(Gear.Amulet, ItemNeutroniumAmulet, ItemInfinityAmulet);
     GearCategoryAddItems(Gear.Wallet, ItemNeutroniumWallet);
     GearCategoryAddItems(Gear.Bow, ItemNeutroniumBow);
     GearCategoryAddItems(Gear.Boots, ItemNeutroniumBoots);
     GearCategoryAddItems(Gear.Gloves, ItemNeutroniumGloves);
     GearCategoryAddItems(GearMatrixEye, ItemMatrixEye);
+    #endregion
     
+    #region ITEMDATA.BLUEPRINT
     
+        #region NEUTRONIUM_ITEMS
+        ItemEdit(ItemNeutroniumPickaxe, ItemData.Blueprint, 
+            [ItemNeutroniumIngot, 10, ItemIronSingularity, 3, ItemGoldSingularity, 2]);
+        ItemEdit(ItemNeutroniumSword, ItemData.Blueprint,
+            [ItemNeutroniumIngot, 15, ItemSteelSingularity, 1, ItemPlasticLattice, 10]);
+        ItemEdit(ItemNeutroniumBow, ItemData.Blueprint,
+            [ItemNeutroniumIngot, 10, ItemIronSingularity, 3, ItemBoneSingularity, 2]);
+        ItemEdit(ItemNeutroniumBook, ItemData.Blueprint,
+            [ItemNeutroniumIngot, 10, Item.Paper, 200, ItemGoldSingularity, 2]);
+        ItemEdit(ItemNeutroniumAmulet, ItemData.Blueprint,
+            [ItemNeutroniumIngot, 10, ItemCrystalMatrix, 20]);
+        ItemEdit(ItemNeutroniumWallet, ItemData.Blueprint,
+            [ItemNeutroniumIngot, 10, ItemGoldSingularity, 5, ItemPlasticLattice, 10]);
+        ItemEdit(ItemNeutroniumBoots, ItemData.Blueprint,
+            [ItemNeutroniumIngot, 10, ItemJellySingularity, 1, ItemCrystalMatrix, 5]);
+        ItemEdit(ItemNeutroniumGloves, ItemData.Blueprint,
+            [ItemNeutroniumIngot, 10, ItemSteelSingularity, 2]);
+        #endregion
+        
+        #region INFINITY_ITEMS
+        ItemEdit(ItemInfinitySword, ItemData.Blueprint,
+            [ItemInfinityCatalyst, 2, ItemUraniumSingularity, 2]);
+        ItemEdit(ItemInfinityPickaxe, ItemData.Blueprint,
+            [ItemInfinityCatalyst, 2, ItemCosmicSingularity, 1]);
+        ItemEdit(ItemInfinityAmulet, ItemData.Blueprint,
+            [ItemInfinityCatalyst, 1, ItemCrystalSingularity, 4]);
+        ItemEdit(ItemInfinityBook, ItemData.Blueprint,
+            [ItemInfinityCatalyst, 1, Item.Paper, 300, ItemVoidSingularity, 1]);
+        #endregion 
+        
+    #endregion
     
+    #region FEATS
+    featDireForge = FeatCreate("DIIIIRE!", "craft dire forge", undefined, rewardDireForge);
+    featNetronuimDude = FeatCreate("Netronium DUDE", "get a neutronium tier item", undefined, rewardNetroniumDude);
+    featInfinityMan = FeatCreate("Infinity DUDE", "get a infinity tier item", undefined, rewardInfinityDude);
+    featSingularity = FeatCreate("Singularities man", "get any singularity", undefined, rewardSingularity);
+    featMatrixEye = FeatCreate("Ender pearl", "get a matrix eye", undefined, rewardMatrixEye);
+    #endregion
     
-#define OnItemUse(item)
-    if(item == ItemInfinitySword){
-        repeat(100){
-            ZapSpawn();
-        }
+#define OnItemGet(item, quantity)
+    if (item == ItemNeutroniumBook || item == ItemNeutroniumPickaxe || item == ItemNeutroniumSword ||
+        item == ItemNeutroniumAmulet || item == ItemNeutroniumWallet || item == ItemNeutroniumBow ||
+        item == ItemNeutroniumBoots || item == ItemNeutroniumGloves){
+            FeatUnlock(featNetronuimDude);
     }
+    if (item == ItemInfinitySword || item == ItemInfinityPickaxe){
+            FeatUnlock(featInfinityMan);
+    }
+    if (item == ItemJellySingularity || item == ItemBoneSingularity || item == ItemIronSingularity ||
+        item == ItemGoldSingularity || item == ItemSteelSingularity || item == ItemCrystalMatrix ||
+        item == ItemVoidSingularity || item == ItemCosmicSingularity || item == ItemUraniumSingularity){
+        FeatUnlock(featSingularity,);
+    }
+    if (item == ItemMatrixEye){
+        FeatUnlock(featMatrixEye);
+    }
+// #define updateSingularity( _, progress )
+#region rewards
+#define rewardDireForge
+    DropItem(objPlayer.x, objPlayer.y, ItemNeutroniumNugget, 10);
+#define rewardNetroniumDude
+    DropItem(objPlayer.x, objPlayer.y, ItemExtremeStew, 10);
+#define rewardInfinityDude
+    DropItem(objPlayer.x, objPlayer.y, ItemExtremeStew, 20);
+#define rewardSingularity
+    DropItem(objPlayer.x, objPlayer.y, ItemBlackHoleBomb, 20);
+#define rewardMatrixEye
+    DropItem(objPlayer.x, objPlayer.y, ItemExtremeStew, 100);
+#endregion
+#region MatrixEye
 #define MatrixEye
     _instMatrixEye = ModObjectSpawn(objPlayer.x, objPlayer.y, 0);
     eyeTick = 30;
@@ -214,6 +310,7 @@
     var _yDelta = lengthdir_y(6, direction);
     x += _xDelta;
     y += _yDelta;
+    eyeTick--;
     if(eyeTick <= 0){
         if(id.x >= 0 && id.y >= 0 ){
             if(id.x <= 1300 && id.y <= 1300){
@@ -232,18 +329,16 @@
     // Trace(objPlayer.x);
     // Trace("Y:");
     // Trace(objPlayer.y);
-    eyeTick--;
+    
    
+#endregion
+#region BlackHoleBomb
 #define BlackHole
     prepare = true
     prepareTick = 50;
     _instBlackHoleBomb = ModObjectSpawn(objPlayer.x, objPlayer.y, 0);
 
     with(_instBlackHoleBomb){
-        // _instBlackHoleBombBG = ModObjectSpawn(objPlayer.x, objPlayer.y, 0);
-        // with(_instBlackHoleBombBG){
-        //     sprite_index = ;
-        // }
         sprite_index = _sprBlackHoleBomb;
         InstanceAssignMethod(id, "step", ScriptWrap(BlackHoleUpdate));
     }
@@ -259,6 +354,46 @@
             // Trace(prepare);
             // Trace(prepareTick);
         }
+#endregion
+
+#define OnItemUse(item)
+    if (item == ItemInfinitySword){
+        repeat(100){
+            ZapSpawn();
+        }
+    }
+#define OnResourceDestroy(inst)
+    if (ToolSelected() == ItemNeutroniumPickaxe || ToolSelected() = ItemInfinityPickaxe){
+        if (irandom_range(0, 100) <= 10 || irandom_range(0, 100) >= 90) {
+            DropItem(objPlayer.x, objPlayer.y, ItemPileOfNeutronium, irandom_range(1, 3));
+        }
+    }
+    if (ToolSelected() == ItemInfinityPickaxe){
+        if(irandom_range(0, 100) <= 10 || irandom_range(0, 100) >= 90){
+            DropItem(objPlayer.x, objPlayer.y, ItemInfinityIngot, irandom_range(1, 3));
+        }
+    }
+#define OnArrowHit(arrow, inst)
+    if(ToolSelected() == ItemNeutroniumBow){
+        if (irandom_range(0, 100) <= 10 || irandom_range(0, 100) >= 90) {
+            DropItem(arrow.x, arrow.y, ItemPileOfNeutronium, irandom_range(1, 3));
+        }
+        // Trace("x: ");
+        // Trace(arrow.x);
+        // Trace("y: ");
+        // Trace(arrow.y);
+    }
+#define OnMobDeath(inst)
+    if (ToolSelected() == ItemNeutroniumSword || ToolSelected() == ItemInfinitySword){
+        if (irandom_range(0, 100) <= 10 || irandom_range(0, 100) >= 90){
+            DropItem(objPlayer.x, objPlayer.y, ItemPileOfNeutronium, irandom_range(1, 3));
+        }
+    }
+    if (ToolSelected() == ItemInfinitySword){
+        if (irandom_range(0, 100) <= 10 || irandom_range(0, 100) >= 90){
+            DropItem(objPlayer.x, objPlayer.y, ItemInfinityIngot, irandom_range(1, 3));
+        }
+    }
 #define OnStructureBuild(inst, structure)
     if (structure == StructureNeutronCompressor) {
         inst.image_speed = 0.1; 
@@ -266,12 +401,32 @@
     if (structure == StructureNeutronCollector) {
         inst.image_speed = 0.1;
     }
+    if (structure == StructureDireForge){
+        FeatUnlock(featDireForge);
+    }
 #define SingularityCreate(name, description, _spr, value, recipe)
     var _sprite = sprite_add("spr/" + "spr" + _spr + "Singularity.png", 1, false, false, 0, 0);
     SetOffset(_sprite);
-    _singularity = ItemCreate(undefined, name + " Singularity", description, _sprite, ItemType.Material,
-        ItemSubType.None, value, 0, 0, recipe);
+    _singularity = ItemCreate(
+        undefined, 
+        name + " Singularity", 
+        "power of " + description, 
+        _sprite, 
+        ItemType.Material,
+        ItemSubType.None, 
+        value, 
+        0, 
+        0, 
+        recipe);
     StructureAddItem(StructureNeutronCompressor, _singularity)
     return _singularity
 #define SetOffset(sprite)
     sprite_set_offset(sprite, sprite_get_width(sprite) / 2, sprite_get_height(sprite) / 2);
+#define OnNewGame
+__FeatNewGame();
+#define OnLoad
+__FeatLoad();
+#define OnSystemStep
+__FeatSystemStep();
+#define OnDrawGUI
+__FeatDrawGUI();
