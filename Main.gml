@@ -8,18 +8,21 @@
         ItemGoldSingularity, ItemSteelSingularity, ItemVoidSingularity, ItemCosmicSingularity, ItemUraniumSingularity,
         ItemCrystalSingularity, ItemNeutroniumBook, ItemNeutroniumPickaxe, ItemNeutroniumSword, ItemNeutroniumAmulet,
         ItemNeutroniumWallet, ItemNeutroniumBow, ItemNeutroniumBoots, ItemNeutroniumGloves, ItemExtremeStew, ItemInfinitySword,
-        ItemInfinityPickaxe, ItemInfinityAmulet, ItemInfinityBook,ItemBlackHoleBomb, ItemMatrixEye; 
+        ItemInfinityPickaxe, ItemInfinityAmulet, ItemInfinityBook, ItemInfinityWallet,ItemInfinityBow, ItemInfinityBoots, 
+        ItemInfinityGloves, ItemBlackHoleBomb, ItemMatrixEye, ItemGalaxySigil; 
     globalvar StructureNeutronCollector, StructureNeutronCompressor, StructureDireForge;
     globalvar _sprPileOfNeutronium, _sprNeutroniumNugget, _sprNeutroniumIngot, _sprInfinityIngot, _sprCrystalMatrix,
         _sprNeutronCompressor, _sprNeutronCollector, _sprDireForge, _sprPlasticLattice, _sprInfinityCatalyst, _sprNeutroniumBook,
         _sprNeutroniumPickaxe, _sprNeutroniumSword, _sprNeutroniumAmulet, _sprNeutroniumWallet, _sprNeutroniumBow,
         _sprNeutroniumBoots, _sprNeutroniumGloves, _sprExtremeStew, _sprInfinitySword, _sprInfinityPickaxe, _sprBlackHoleBomb,
-        _sprMatrixEye, _sprInfinityAmulet, _sprInfinityBook;
+        _sprMatrixEye, _sprInfinityAmulet, _sprInfinityBook, _sprInfinityWallet, _sprInfinityBow, _sprInfinityBoots,
+        _sprInfinityGloves, _sprGalaxySigil, _sprGalaxySpirit;
+    globalvar EnemyGalaxySpirit;
     globalvar GearMatrixEye
-    globalvar _instBlackHoleBomb, _instMatrixEye;
+    globalvar _instBlackHoleBomb, _instMatrixEye, _instGalaxySpirit;
     globalvar prepare, prepareTick, eyeTick;
     globalvar playerX, playerY;
-    globalvar featDireForge, featNetronuimDude, featInfinityMan, featSingularity, featMatrixEye;
+    globalvar featDireForge, featNetronuimDude, featInfinityMan, featSingularity, featDefeatGalaxySpirit;
     #endregion
     
     #region GEAR_CATEGORY_CREATE
@@ -77,6 +80,18 @@
     SetOffset(_sprInfinityAmulet);
     _sprInfinityBook = sprite_add("spr/sprInfinityBook.png", 1, false, false, 0, 0);
     SetOffset(_sprInfinityBook);
+    _sprInfinityWallet = sprite_add("spr/sprInfinityWallet.png", 1, false, false, 0, 0);
+    SetOffset(_sprInfinityWallet);
+    _sprInfinityBow = sprite_add("spr/sprInfinityBow.png", 1, false, false, 0, 0);
+    SetOffset(_sprInfinityBow);
+    _sprInfinityBoots = sprite_add("spr/sprInfinityBoots.png", 1, false, false, 0, 0);
+    SetOffset(_sprInfinityBoots);
+    _sprInfinityGloves = sprite_add("spr/sprInfinityGloves.png", 1, false, false, 0, 0);
+    SetOffset(_sprInfinityGloves);
+    _sprGalaxySigil = sprite_add("spr/sprGalaxySigil.png", 1, false, false, 0, 0);
+    SetOffset(_sprGalaxySigil);
+    _sprGalaxySpirit = sprite_add("spr/sprGalaxySpirit.png", 2, false, false, 64, 79);
+    SetOffset(_sprGalaxySpirit);
     #endregion
     
     #region ITEMS
@@ -95,14 +110,16 @@
         ItemPlasticLattice = ItemCreate(undefined, "Plastic Lattice", "gimme plastic", _sprPlasticLattice, ItemType.Material,
             ItemSubType.None, 1000, 0, 0, [Item.Plastic, 15, Item.BottledOil, 10, Item.RoyalClothing, 5]);
         ItemInfinityCatalyst = ItemCreate(undefined, "Infinity Catalyst", "stores all galaxy", _sprInfinityCatalyst, ItemType.Material,
-            ItemSubType.None, 1000000, 0, 0, [ItemPlasticLattice, 99, ItemInfinityIngot, 30, ItemNeutroniumIngot, 80, ItemCrystalMatrix, 100]);
+            ItemSubType.None, 1000000, 0, 0, []);
         ItemBlackHoleBomb = ItemCreate(undefined, "Black-Hole Bomb", "WARNING! it's not a toy", _sprBlackHoleBomb, ItemType.Consumable,
             ItemSubType.None, 1000000, 0, 0, [ItemInfinityIngot, 4, Item.EMPGrenade, 1], ScriptWrap(BlackHole), undefined, true, 9999);
         ItemMatrixEye = ItemCreate(undefined, "Matrix Eye", "Your uber has arrived", _sprMatrixEye, ItemType.Gear,
-            ItemSubType.None, 100000, 0, 0, [Item.KrakenEye, 30, Item.StarFragment, 50, ItemInfinityCatalyst, 2], ScriptWrap(MatrixEye), 30);
+            ItemSubType.None, 100000, 0, 0, [/* Item.KrakenEye, 30, Item.StarFragment, 50, ItemInfinityCatalyst, 2 */], ScriptWrap(MatrixEye), 30);
         ItemExtremeStew = ItemCreate(undefined, "Extreme Stew", "galaxy food", _sprExtremeStew, ItemType.Consumable,
-                ItemSubType.None, 1000, 200, 2000, [Item.Beet, 1, Item.Berry, 1, Item.CactusFruit, 1, Item.Citrus, 1, Item.Egg, 1,
+            ItemSubType.None, 1000, 200, 2000, [Item.Beet, 1, Item.Berry, 1, Item.CactusFruit, 1, Item.Citrus, 1, Item.Egg, 1,
                 Item.Fish, 1, Item.HotPepper, 1, Item.Meat, 1, Item.Pumpkin, 1, Item.Seaweed, 1], ScriptWrap(UseConsume));
+        ItemGalaxySigil = ItemCreate(undefined, "Galaxy Sigil", "", _sprGalaxySigil, ItemType.Consumable,
+            ItemSubType.None, 1000, 0, 0, [], ScriptWrap(GalaxySpirit), 1000);
         #endregion
         
         #region NEUTRONIUM_ITEMS  
@@ -134,6 +151,14 @@
             ItemSubType.None, 1000000, 0, 0, []);
         ItemInfinityBook = ItemCreate(undefined, "Infinity Book", "xp gained increased by 160%", _sprInfinityBook, ItemType.Gear,
             ItemSubType.None, 10000, 0, 0, []);
+        ItemInfinityWallet = ItemCreate(undefined, "Infinity Wallet", "coins are worth 240% more!", _sprInfinityWallet, ItemType.Gear,
+            ItemSubType.None, 10000, 0, 0, []);
+        ItemInfinityBow = ItemCreate(undefined, "Infinity Bow", "arrows may drop infinity ingot on hit!", _sprInfinityBow, ItemType.Gear,
+            ItemSubType.None, 10000, 0, 0, []);
+        ItemInfinityBoots = ItemCreate(undefined, "Infinity Boots", "move speed increase by 120%!\n gives a 50% chance to dodge attacks!", _sprInfinityBoots, ItemType.Gear,
+            ItemSubType.None, 10000, 0, 0, []);
+        ItemInfinityGloves = ItemCreate(undefined, "Infinity Gloves", "attack speed increased by 120%", _sprInfinityGloves, ItemType.Gear,
+            ItemSubType.None, 10000, 0, 0, []);
         #endregion
         
         #region ITEMDATA.CRAFTING_TIME
@@ -157,6 +182,10 @@
         ItemEdit(ItemInfinityPickaxe, ItemData.CraftingTime, 1000);
         ItemEdit(ItemInfinityAmulet, ItemData.CraftingTime, 1000);
         ItemEdit(ItemInfinityBook, ItemData.CraftingTime, 1000);
+        ItemEdit(ItemInfinityWallet, ItemData.CraftingTime, 1000);
+        ItemEdit(ItemInfinityBow, ItemData.CraftingTime, 1000);
+        ItemEdit(ItemInfinityBoots, ItemData.CraftingTime, 1000);
+        ItemEdit(ItemInfinityGloves, ItemData.CraftingTime, 1000);
         ItemEdit(ItemBlackHoleBomb, ItemData.CraftingTime, 150);
         ItemEdit(ItemMatrixEye, ItemData.CraftingTime, 150);
         #endregion
@@ -174,14 +203,15 @@
         
     StructureDireForge = StructureCreate(undefined, "Dire Forge", "make incredible", StructureType.Base, _sprDireForge,
         undefined, [ItemCrystalMatrix, 80, Item.NuclearFuelCell, 10, Item.VoidSteel, 60, Item.CosmicSteel, 30], 2, true,
-        [ItemNeutroniumIngot, ItemInfinityIngot, ItemInfinityCatalyst], true, BuildMenuCategory.Industrial, [GearMatrixEye]);
+        [ItemNeutroniumIngot, ItemInfinityIngot], true, BuildMenuCategory.Industrial, []);
     
     
     #region STRUCTURE_ADD_ITEM 
     StructureAddItem(Structure.Forge, ItemCrystalMatrix, ItemNeutroniumNugget);
     StructureAddItem(Structure.Factory, ItemPlasticLattice, ItemBlackHoleBomb);
     StructureAddItem(Structure.Cauldron, ItemExtremeStew);
-    StructureAddItem(StructureDireForge, ItemMatrixEye);
+    // StructureAddItem(StructureDireForge, ItemMatrixEye);
+    StructureAddItem(Structure.SigilMaker, ItemGalaxySigil);
     #endregion
     
     #endregion
@@ -216,10 +246,10 @@
     GearCategoryAddItems(Gear.Pickaxe, ItemNeutroniumPickaxe, ItemInfinityPickaxe);
     GearCategoryAddItems(Gear.Sword, ItemNeutroniumSword, ItemInfinitySword);
     GearCategoryAddItems(Gear.Amulet, ItemNeutroniumAmulet, ItemInfinityAmulet);
-    GearCategoryAddItems(Gear.Wallet, ItemNeutroniumWallet);
-    GearCategoryAddItems(Gear.Bow, ItemNeutroniumBow);
-    GearCategoryAddItems(Gear.Boots, ItemNeutroniumBoots);
-    GearCategoryAddItems(Gear.Gloves, ItemNeutroniumGloves);
+    GearCategoryAddItems(Gear.Wallet, ItemNeutroniumWallet, ItemInfinityWallet);
+    GearCategoryAddItems(Gear.Bow, ItemNeutroniumBow, ItemInfinityBow);
+    GearCategoryAddItems(Gear.Boots, ItemNeutroniumBoots, ItemInfinityBoots);
+    GearCategoryAddItems(Gear.Gloves, ItemNeutroniumGloves, ItemInfinityGloves);
     GearCategoryAddItems(GearMatrixEye, ItemMatrixEye);
     #endregion
     
@@ -253,8 +283,25 @@
             [ItemInfinityCatalyst, 1, ItemCrystalSingularity, 4]);
         ItemEdit(ItemInfinityBook, ItemData.Blueprint,
             [ItemInfinityCatalyst, 1, Item.Paper, 300, ItemVoidSingularity, 1]);
+        ItemEdit(ItemInfinityWallet, ItemData.Blueprint,
+            [ItemInfinityCatalyst, 1, ItemGoldSingularity, 3]);
+        ItemEdit(ItemInfinityBow, ItemData.Blueprint,
+            [ItemInfinityCatalyst, 1, ItemBoneSingularity, 2]);
+        ItemEdit(ItemInfinityBoots, ItemData.Blueprint,
+            [ItemInfinityCatalyst, 1, ItemJellySingularity, 1]);
+        ItemEdit(ItemInfinityGloves, ItemData.Blueprint,
+            [ItemInfinityCatalyst, 1, ItemVoidSingularity, 1]);
         #endregion 
         
+        ItemEdit(ItemGalaxySigil, ItemData.Blueprint,
+            [Item.StarFragment, 10, ItemInfinityIngot, 10, ItemSteelSingularity, 10]);
+        
+    #endregion
+    
+    #region ENEMIES
+    EnemyGalaxySpirit = EnemyCreate(undefined, "Galaxy Spirit", EnemyType.Raider);
+    EnemyEdit(EnemyGalaxySpirit, EnemyData.HP, 7500);
+    EnemyEdit(EnemyGalaxySpirit, EnemyData.Damage, 7.5);
     #endregion
     
     #region FEATS
@@ -262,27 +309,26 @@
     featNetronuimDude = FeatCreate("Netronium DUDE", "get a neutronium tier item", undefined, rewardNetroniumDude);
     featInfinityMan = FeatCreate("Infinity DUDE", "get a infinity tier item", undefined, rewardInfinityDude);
     featSingularity = FeatCreate("Singularities man", "get any singularity", undefined, rewardSingularity);
-    featMatrixEye = FeatCreate("Ender pearl", "get a matrix eye", undefined, rewardMatrixEye);
+    featDefeatGalaxySpirit = FeatCreate("spectrophobia", "defeat a the galaxy spirit", undefined, rewardGalaxySpirit);
     #endregion
     
+
 #define OnItemGet(item, quantity)
     if (item == ItemNeutroniumBook || item == ItemNeutroniumPickaxe || item == ItemNeutroniumSword ||
         item == ItemNeutroniumAmulet || item == ItemNeutroniumWallet || item == ItemNeutroniumBow ||
         item == ItemNeutroniumBoots || item == ItemNeutroniumGloves){
             FeatUnlock(featNetronuimDude);
     }
-    if (item == ItemInfinitySword || item == ItemInfinityPickaxe){
+    if (item == ItemInfinitySword || item == ItemInfinityPickaxe || item == ItemInfinityAmulet ||
+        item == ItemInfinityBook || item == ItemInfinityWallet || item == ItemInfinityBow ||
+        item == ItemInfinityBoots || item == ItemInfinityGloves){
             FeatUnlock(featInfinityMan);
     }
     if (item == ItemJellySingularity || item == ItemBoneSingularity || item == ItemIronSingularity ||
         item == ItemGoldSingularity || item == ItemSteelSingularity || item == ItemCrystalMatrix ||
         item == ItemVoidSingularity || item == ItemCosmicSingularity || item == ItemUraniumSingularity){
-        FeatUnlock(featSingularity,);
+        FeatUnlock(featSingularity);
     }
-    if (item == ItemMatrixEye){
-        FeatUnlock(featMatrixEye);
-    }
-// #define updateSingularity( _, progress )
 #region rewards
 #define rewardDireForge
     DropItem(objPlayer.x, objPlayer.y, ItemNeutroniumNugget, 10);
@@ -292,8 +338,8 @@
     DropItem(objPlayer.x, objPlayer.y, ItemExtremeStew, 20);
 #define rewardSingularity
     DropItem(objPlayer.x, objPlayer.y, ItemBlackHoleBomb, 20);
-#define rewardMatrixEye
-    DropItem(objPlayer.x, objPlayer.y, ItemExtremeStew, 100);
+#define rewardGalaxySpirit
+    DropItem(objPlayer.x, objPlayer.y, ItemMatrixEye, 1);
 #endregion
 #region MatrixEye
 #define MatrixEye
@@ -362,6 +408,15 @@
             ZapSpawn();
         }
     }
+    // if (item == ItemGalaxySigil){
+    //     _instGalaxySpirit = ModEnemySpawn(objPlayer.x, objPlayer.y, objPlayer.depth, EnemyGalaxySpirit);        
+    // }
+#define GalaxySpirit
+    _instGalaxySpirit = ModEnemySpawn(objPlayer.x, objPlayer.y, objPlayer.depth, EnemyGalaxySpirit);
+    with(_instGalaxySpirit){
+        image_speed = 0.2;
+        sprite_index = _sprGalaxySpirit;
+    }
 #define OnResourceDestroy(inst)
     if (ToolSelected() == ItemNeutroniumPickaxe || ToolSelected() = ItemInfinityPickaxe){
         if (irandom_range(0, 100) <= 10 || irandom_range(0, 100) >= 90) {
@@ -374,14 +429,15 @@
         }
     }
 #define OnArrowHit(arrow, inst)
-    if(ToolSelected() == ItemNeutroniumBow){
+    if(ToolSelected() == ItemNeutroniumBow || ToolSelected() == ItemInfinityBow){
         if (irandom_range(0, 100) <= 10 || irandom_range(0, 100) >= 90) {
             DropItem(arrow.x, arrow.y, ItemPileOfNeutronium, irandom_range(1, 3));
         }
-        // Trace("x: ");
-        // Trace(arrow.x);
-        // Trace("y: ");
-        // Trace(arrow.y);
+    }
+    if(ToolSelected() == ItemInfinityBow){
+        if (irandom_range(0, 100) <= 10 || irandom_range(0, 100) >= 90) {
+            DropItem(arrow.x, arrow.y, ItemInfinityIngot, irandom_range(1, 3));
+        }
     }
 #define OnMobDeath(inst)
     if (ToolSelected() == ItemNeutroniumSword || ToolSelected() == ItemInfinitySword){
@@ -393,6 +449,10 @@
         if (irandom_range(0, 100) <= 10 || irandom_range(0, 100) >= 90){
             DropItem(objPlayer.x, objPlayer.y, ItemInfinityIngot, irandom_range(1, 3));
         }
+    }
+    if (inst == _instGalaxySpirit){
+        DropItem(inst.x, inst.y, ItemInfinityCatalyst, irandom_range(1, 5));
+        FeatUnlock(featDefeatGalaxySpirit);
     }
 #define OnStructureBuild(inst, structure)
     if (structure == StructureNeutronCompressor) {
