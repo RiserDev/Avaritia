@@ -23,6 +23,7 @@
     globalvar prepare, prepareTick, eyeTick;
     globalvar playerX, playerY;
     globalvar featDireForge, featNetronuimDude, featInfinityMan, featSingularity, featDefeatGalaxySpirit;
+    globalvar isSummoned;
     #endregion
     
     #region GEAR_CATEGORY_CREATE
@@ -412,6 +413,7 @@
     //     _instGalaxySpirit = ModEnemySpawn(objPlayer.x, objPlayer.y, objPlayer.depth, EnemyGalaxySpirit);        
     // }
 #define GalaxySpirit
+    isSummoned = 1;
     _instGalaxySpirit = ModEnemySpawn(objPlayer.x, objPlayer.y, objPlayer.depth, EnemyGalaxySpirit);
     with(_instGalaxySpirit){
         image_speed = 0.2;
@@ -450,10 +452,13 @@
             DropItem(objPlayer.x, objPlayer.y, ItemInfinityIngot, irandom_range(1, 3));
         }
     }
-    if (inst == _instGalaxySpirit){
-        DropItem(inst.x, inst.y, ItemInfinityCatalyst, irandom_range(1, 5));
-        FeatUnlock(featDefeatGalaxySpirit);
-    }
+    if (isSummoned == 1) {
+        if (inst == _instGalaxySpirit){
+            DropItem(inst.x, inst.y, ItemInfinityCatalyst, irandom_range(1, 5));
+            FeatUnlock(featDefeatGalaxySpirit);
+            isSummoned = 0;
+        }
+    }      
 #define OnStructureBuild(inst, structure)
     if (structure == StructureNeutronCompressor) {
         inst.image_speed = 0.1; 
