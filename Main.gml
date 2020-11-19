@@ -413,7 +413,6 @@
     //     _instGalaxySpirit = ModEnemySpawn(objPlayer.x, objPlayer.y, objPlayer.depth, EnemyGalaxySpirit);        
     // }
 #define GalaxySpirit
-    isSummoned = 1;
     _instGalaxySpirit = ModEnemySpawn(objPlayer.x, objPlayer.y, objPlayer.depth, EnemyGalaxySpirit);
     with(_instGalaxySpirit){
         image_speed = 0.2;
@@ -452,13 +451,15 @@
             DropItem(objPlayer.x, objPlayer.y, ItemInfinityIngot, irandom_range(1, 3));
         }
     }
-    if (isSummoned == 1) {
-        if (inst == _instGalaxySpirit){
-            DropItem(inst.x, inst.y, ItemInfinityCatalyst, irandom_range(1, 5));
-            FeatUnlock(featDefeatGalaxySpirit);
-            isSummoned = 0;
-        }
-    }      
+    // if (inst == _instGalaxySpirit){
+    //     DropItem(inst.x, inst.y, ItemInfinityCatalyst, irandom_range(1, 5));
+    //     FeatUnlock(featDefeatGalaxySpirit);
+    // }
+    if (variable_instance_exists(_instGalaxySpirit, "EnemyGalaxySpirit")){
+        DropItem(inst.x, inst.y, ItemInfinityCatalyst, irandom_range(1, 5));
+        FeatUnlock(featDefeatGalaxySpirit);
+    }
+    
 #define OnStructureBuild(inst, structure)
     if (structure == StructureNeutronCompressor) {
         inst.image_speed = 0.1; 
