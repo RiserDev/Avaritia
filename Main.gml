@@ -117,7 +117,7 @@
         ItemMatrixEye = ItemCreate(undefined, "Matrix Eye", "Your uber has arrived", _sprMatrixEye, ItemType.Gear,
             ItemSubType.None, 100000, 0, 0, [/* Item.KrakenEye, 30, Item.StarFragment, 50, ItemInfinityCatalyst, 2 */], ScriptWrap(MatrixEye), 30);
         ItemExtremeStew = ItemCreate(undefined, "Extreme Stew", "galaxy food", _sprExtremeStew, ItemType.Consumable,
-            ItemSubType.None, 1000, 200, 2000, [Item.Beet, 1, Item.Berry, 1, Item.CactusFruit, 1, Item.Citrus, 1, Item.Egg, 1,
+            ItemSubType.None, 10, 200, 2000, [Item.Beet, 1, Item.Berry, 1, Item.CactusFruit, 1, Item.Citrus, 1, Item.Egg, 1,
                 Item.Fish, 1, Item.HotPepper, 1, Item.Meat, 1, Item.Pumpkin, 1, Item.Seaweed, 1], ScriptWrap(UseConsume));
         ItemGalaxySigil = ItemCreate(undefined, "Galaxy Sigil", "", _sprGalaxySigil, ItemType.Consumable,
             ItemSubType.None, 1000, 0, 0, [], ScriptWrap(GalaxySpirit), 1000);
