@@ -18,13 +18,15 @@
         _sprMatrixEye, _sprInfinityAmulet, _sprInfinityBook, _sprInfinityWallet, _sprInfinityBow, _sprInfinityBoots,
         _sprInfinityGloves, _sprGalaxySigil, _sprGalaxySpirit;
     globalvar EnemyGalaxySpirit;
-    globalvar GearMatrixEye
-    globalvar _instBlackHoleBomb, _instMatrixEye, _instGalaxySpirit;
+    globalvar GearMatrixEye;
+    globalvar _instBlackHoleBomb, _instGalaxySpirit, _instMatrixEye;
     globalvar prepare, prepareTick, eyeTick;
     globalvar playerX, playerY;
     globalvar featDireForge, featNetronuimDude, featInfinityMan, featSingularity, featDefeatGalaxySpirit;
     globalvar isSummoned;
     #endregion
+    
+    _instGalaxySpirit = null;
     
     #region GEAR_CATEGORY_CREATE
     GearMatrixEye = GearCategoryCreate(undefined, "Matrix Eye", true);
@@ -451,11 +453,7 @@
             DropItem(objPlayer.x, objPlayer.y, ItemInfinityIngot, irandom_range(1, 3));
         }
     }
-    // if (inst == _instGalaxySpirit){
-    //     DropItem(inst.x, inst.y, ItemInfinityCatalyst, irandom_range(1, 5));
-    //     FeatUnlock(featDefeatGalaxySpirit);
-    // }
-    if (variable_instance_exists(_instGalaxySpirit, "EnemyGalaxySpirit")){
+    if (inst == _instGalaxySpirit){
         DropItem(inst.x, inst.y, ItemInfinityCatalyst, irandom_range(1, 5));
         FeatUnlock(featDefeatGalaxySpirit);
     }
